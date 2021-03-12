@@ -1,0 +1,64 @@
+﻿@page "/user"
+@using Resturent.Models
+@inject UserService objUserService
+
+<h3>Users</h3>
+
+    @*<a href="/addUser">Add Users</a>*@
+<NavLink class="nav-link" href="/addUser">
+    <span class="oi oi-plus" aria-hidden="true"></span> &nbsp; Add Users
+</NavLink>
+
+
+@if (objUser == null)
+{
+    <p>Loading....</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>UserName</th>
+                <th>Password</th>
+                <th>Email</th>
+                <th>Email Password</th>
+                <th>Mobile No.</th>
+                <th>Is Admin</th>
+                <th>Is Active</th>
+                <th>Entry Date</th>
+                <th>Modification Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in objUser)
+            {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Password</td>
+                <td>@user.EmailId</td>
+                <td>@user.EmailPass</td>
+                <td>@user.MobileNo</td>
+                <td>@user.IsAdmin.GetValueOrDefault()</td>
+                <td>@user.IsActive.GetValueOrDefault()</td>
+                <td>@user.EDate</td>
+                <td>@user.MDate</td>
+
+                <td>
+                    <a href="/editUser/@user.UserId">Edit</a>
+                    <a href="/deleteUser/@user.UserId">Delete</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    List<User> objUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        objUser = await Task.Run(() => objUserService.GetUser());
+    }
+
+}
