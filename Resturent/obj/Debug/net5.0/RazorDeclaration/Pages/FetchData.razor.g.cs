@@ -83,6 +83,13 @@ using Resturent.Shared;
 #line hidden
 #nullable disable
 #nullable restore
+#line 11 "E:\ResturentDemo\Resturent\_Imports.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 3 "E:\ResturentDemo\Resturent\Pages\FetchData.razor"
 using Resturent.Data;
 

@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MudBlazor.Services;
 
 namespace Resturent
 {
@@ -36,8 +37,7 @@ namespace Resturent
                 options => options.UseSqlServer(Configuration.GetConnectionString("OmDemoDatabase"))  //specify
                 );
 
-            /* services.AddRazorComponentsRuntimeCompilation();*/
-
+            services.AddMudServices();
 
         }
 

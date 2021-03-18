@@ -83,8 +83,36 @@ using Resturent.Shared;
 #line hidden
 #nullable disable
 #nullable restore
+#line 11 "E:\ResturentDemo\Resturent\_Imports.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 2 "E:\ResturentDemo\Resturent\Pages\Users.razor"
 using Resturent.Models;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 3 "E:\ResturentDemo\Resturent\Pages\Users.razor"
+using NPOI.SS.UserModel;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "E:\ResturentDemo\Resturent\Pages\Users.razor"
+using NPOI.XSSF.UserModel;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "E:\ResturentDemo\Resturent\Pages\Users.razor"
+using System.IO;
 
 #line default
 #line hidden
@@ -98,20 +126,148 @@ using Resturent.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 56 "E:\ResturentDemo\Resturent\Pages\Users.razor"
+#line 100 "E:\ResturentDemo\Resturent\Pages\Users.razor"
        
+
+
+
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = false;
+    private bool bordered = false;
+    private string searchString = "";
+
+    
+
+
+
+
+
     List<User> objUser;
+    User obj = new User();
+
+    private HashSet<User> selectedItems = new HashSet<User>();
+    private HashSet<User> user = new HashSet<User>();
+
+
+
+    //display
+    private HashSet<User> GetUsers()
+    {
+        objUser = objUserService.GetUser(); //after delete display
+        return user;
+    }
 
     protected override async Task OnInitializedAsync()
     {
         objUser = await Task.Run(() => objUserService.GetUser());
+
+    }
+
+
+    //search
+    private bool FilterFunc(User element)
+    {
+        
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 146 "E:\ResturentDemo\Resturent\Pages\Users.razor"
+                          
+        if ($"{element.UserName} {element.MobileNo}".Contains(searchString))
+            return true;
+
+        return false;
+    }
+    //delete
+    protected void Delete(long UserId)
+    {
+        objUserService.Delete(UserId);
+        GetUsers();
+
+    }
+
+    //----------------------------------------Excel export----------------------------------//
+
+    public async Task GenerateExcel()
+    {
+        objUser = objUserService.GetUser();
+
+        IWorkbook workbook = new XSSFWorkbook();
+
+        var dataformat = workbook.CreateDataFormat();
+        var datastyle = workbook.CreateCellStyle();
+        datastyle.DataFormat = dataformat.GetFormat("dd - MMM - yyyy hh: mm");
+
+        ISheet worksheet = workbook.CreateSheet("Sheet1");
+
+        int rowNumber = 0;
+        IRow row = worksheet.CreateRow(rowNumber++);
+
+        //-------------------------sheet header------------------
+
+        ICell cell = row.CreateCell(0);
+        cell.SetCellValue("User Name");
+
+        cell = row.CreateCell(1);
+        cell.SetCellValue("Email Id");
+
+        cell = row.CreateCell(2);
+        cell.SetCellValue("Mobile No.");
+
+        cell = row.CreateCell(3);
+        cell.SetCellValue("Entry Date");
+
+        cell = row.CreateCell(4);
+        cell.SetCellValue("Modify Date");
+
+
+        //sheet value
+
+        foreach (var user in objUser)
+        {
+
+            row = worksheet.CreateRow(rowNumber++);
+
+            cell = row.CreateCell(0);
+            cell.SetCellValue(user.UserName);
+
+            cell = row.CreateCell(1);
+            cell.SetCellValue(user.EmailId);
+
+            cell = row.CreateCell(2);
+            cell.SetCellValue(user.MobileNo);
+
+            cell = row.CreateCell(3);
+            cell.SetCellValue(user.EDate?.ToString("dd-MMM-yyyy hh:mm"));
+
+            cell = row.CreateCell(4);
+            cell.SetCellValue(user.MDate?.ToString("dd-MMM-yyyy hh:mm"));
+
+
+
+        }
+
+
+        MemoryStream ms = new MemoryStream();
+        workbook.Write(ms);
+        byte[] bytes = ms.ToArray();
+        ms.Close();
+
+        await jsruntime.SaveAsFileAsync("User List", bytes, "application/vnd.ms-excel");
+
+
     }
 
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private UserService objUserService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime jsruntime { get; set; }
     }
 }
 #pragma warning restore 1591

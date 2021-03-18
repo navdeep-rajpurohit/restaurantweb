@@ -83,6 +83,13 @@ using Resturent.Shared;
 #line hidden
 #nullable disable
 #nullable restore
+#line 11 "E:\ResturentDemo\Resturent\_Imports.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 2 "E:\ResturentDemo\Resturent\Pages\AddUser.razor"
 using Resturent.Models;
 
@@ -98,14 +105,14 @@ using Resturent.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 68 "E:\ResturentDemo\Resturent\Pages\AddUser.razor"
+#line 63 "E:\ResturentDemo\Resturent\Pages\AddUser.razor"
        
 
     User objUser = new User();
 
+    private bool hover = true;
     private DateTime eDate;
     public bool isActive, isAdmin, status;
-
 
 
     protected override void OnInitialized()
@@ -128,7 +135,42 @@ using Resturent.Models;
     {
         NavigationManager.NavigateTo("user");
     }
-    
+
+    //password hide
+
+    bool isShow;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void ButtonTestclick()
+    {
+        
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 101 "E:\ResturentDemo\Resturent\Pages\AddUser.razor"
+         if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 112 "E:\ResturentDemo\Resturent\Pages\AddUser.razor"
+         
+    }
 
 #line default
 #line hidden

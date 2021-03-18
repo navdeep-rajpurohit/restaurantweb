@@ -48,11 +48,22 @@ namespace Resturent.Models
         }
 
         //Delete
-        public string Delete(User objUser)
+        /* public string Delete(User objUser)
+         {
+             _db.Remove(objUser);
+             _db.SaveChanges();
+             return "deleted";
+         }*/
+
+        public string Delete(long UserId)
         {
-            _db.Remove(objUser);
-            _db.SaveChanges();
-            return "deleted";
+            var user = _db.Users.FirstOrDefault(s => s.UserId == UserId);
+            if (user != null)
+            {
+                _db.Users.Remove(user);
+                _db.SaveChanges();
+            }
+            return "Deleted";
         }
 
     }

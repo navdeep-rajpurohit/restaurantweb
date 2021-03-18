@@ -79,6 +79,13 @@ using Resturent.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 11 "E:\ResturentDemo\Resturent\_Imports.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/")]
     public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
     {

@@ -6,25 +6,20 @@
 <form>
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label for="inputEmail4">User Name</label>
-            <input type="text" class="form-control" @bind="objUser.UserName" placeholder="User Name">
+            <MudTextField @bind-Value="objUser.UserName" Label="User Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
         </div>
         <div class="form-group col-md-6">
-            <label for="inputPassword4">Password</label>
-            <input type="password" class="form-control" @bind="objUser.Password" placeholder="Password">
+            <MudTextField @bind-Value="objUser.Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" class="form-control" />
         </div>
 
         <div class="form-group col-md-6">
-            <label for="inputEmail4">Email</label>
-            <input type="email" class="form-control" @bind="objUser.EmailId" placeholder="Email">
+            <MudTextField @bind-Value="objUser.EmailId" Label="Email Id" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
         </div>
         <div class="form-group col-md-6">
-            <label for="inputPassword4">Email Password</label>
-            <input type="password" class="form-control" @bind="objUser.EmailPass" placeholder="Email Password">
+            <MudTextField @bind-Value="objUser.EmailPass" Label="Email Password" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" class="form-control" />
         </div>
         <div class="form-group col-md-6">
-            <label for="inputPassword4">Mobile No.</label>
-            <input type="number" class="form-control" @bind="objUser.MobileNo" placeholder="Mole Number">
+            <MudTextField @bind-Value="objUser.MobileNo" Label="Mobile No." Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
         </div>
 
 
@@ -41,7 +36,7 @@
         <div class="form-group col-md-3">
             <label for="inputPassword4">Is Active</label>
             <label class="switch">
-                <input type="checkbox"  @bind="objUser.IsActive">
+                <input type="checkbox" @bind="objUser.IsActive">
                 <span class="slider round"></span>
             </label>
         </div>
@@ -91,5 +86,28 @@
     void Cancel()
     {
         NavigationManager.NavigateTo("user");
+    }
+
+
+    //password hide
+
+    bool isShow;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void ButtonTestclick()
+    {
+        @if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
     }
 }

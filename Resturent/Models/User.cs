@@ -18,5 +18,6 @@ namespace Resturent.Models
         public bool? IsActive { get; set; }
         public DateTime? EDate { get; set; }
         public DateTime? MDate { get; set; }
+
     }
 }

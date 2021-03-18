@@ -82,6 +82,13 @@ using Resturent.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 2 "E:\ResturentDemo\Resturent\Shared\MainLayout.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
     public partial class MainLayout : LayoutComponentBase
     {
         #pragma warning disable 1998

@@ -83,6 +83,13 @@ using Resturent.Shared;
 #line hidden
 #nullable disable
 #nullable restore
+#line 11 "E:\ResturentDemo\Resturent\_Imports.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 2 "E:\ResturentDemo\Resturent\Pages\EditUser.razor"
 using Resturent.Models;
 
@@ -98,7 +105,7 @@ using Resturent.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 68 "E:\ResturentDemo\Resturent\Pages\EditUser.razor"
+#line 63 "E:\ResturentDemo\Resturent\Pages\EditUser.razor"
        
     [Parameter]
     public string CurrentId { get; set; }
@@ -125,6 +132,43 @@ using Resturent.Models;
     void Cancel()
     {
         NavigationManager.NavigateTo("user");
+    }
+
+
+    //password hide
+
+    bool isShow;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void ButtonTestclick()
+    {
+        
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 100 "E:\ResturentDemo\Resturent\Pages\EditUser.razor"
+         if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 111 "E:\ResturentDemo\Resturent\Pages\EditUser.razor"
+         
     }
 
 #line default
