@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace Resturent.Shared
+namespace Resturent.Pages
 {
     #line hidden
     using System;
@@ -89,7 +89,15 @@ using MudBlazor;
 #line default
 #line hidden
 #nullable disable
-    public partial class NavMenu : Microsoft.AspNetCore.Components.ComponentBase
+#nullable restore
+#line 2 "E:\ResturentDemo\Resturent\Pages\AddTable.razor"
+using Resturent.Models;
+
+#line default
+#line hidden
+#nullable disable
+    [Microsoft.AspNetCore.Components.RouteAttribute("/addTable")]
+    public partial class AddTable : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -97,20 +105,78 @@ using MudBlazor;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 33 "E:\ResturentDemo\Resturent\Shared\NavMenu.razor"
+#line 52 "E:\ResturentDemo\Resturent\Pages\AddTable.razor"
        
-    private bool collapseNavMenu = true;
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    Table objTable = new Table();
 
-    private void ToggleNavMenu()
+    private bool hover = true;
+    private DateTime eDate;
+    public bool isActive, isAdmin, status;
+
+
+    protected override void OnInitialized()
     {
-        collapseNavMenu = !collapseNavMenu;
+        eDate = DateTime.Now;
+    }
+
+    void CreateUser()
+    {
+        objTable.UserId = 0;
+        objTable.EDate = eDate;
+        objTable.MDate = null;
+        objTable.IsActive = isActive ? true : false;
+        objTable.IsAdmin = isAdmin ? true : false;
+        objTable.Status = status ? true : false;
+        objTableService.Create(objTable);
+        NavigationManager.NavigateTo("table");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("table");
+    }
+
+    //password hide
+
+    bool isShow;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void ButtonTestclick()
+    {
+        
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 90 "E:\ResturentDemo\Resturent\Pages\AddTable.razor"
+         if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 101 "E:\ResturentDemo\Resturent\Pages\AddTable.razor"
+         
     }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private TableService objTableService { get; set; }
     }
 }
 #pragma warning restore 1591

@@ -11,7 +11,6 @@ namespace Resturent.Pages
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Components;
 #nullable restore
 #line 1 "E:\ResturentDemo\Resturent\_Imports.razor"
 using System.Net.Http;
@@ -117,6 +116,13 @@ using System.IO;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 6 "E:\ResturentDemo\Resturent\Pages\Users.razor"
+using Microsoft.AspNetCore.Components;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/user")]
     public partial class Users : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -126,7 +132,7 @@ using System.IO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 100 "E:\ResturentDemo\Resturent\Pages\Users.razor"
+#line 114 "E:\ResturentDemo\Resturent\Pages\Users.razor"
        
 
 
@@ -137,13 +143,11 @@ using System.IO;
     private bool bordered = false;
     private string searchString = "";
 
-    
-
-
 
 
 
     List<User> objUser;
+    List<User> objUser1;
     User obj = new User();
 
     private HashSet<User> selectedItems = new HashSet<User>();
@@ -154,6 +158,7 @@ using System.IO;
     //display
     private HashSet<User> GetUsers()
     {
+
         objUser = objUserService.GetUser(); //after delete display
         return user;
     }
@@ -174,92 +179,104 @@ using System.IO;
 #line hidden
 #nullable disable
 #nullable restore
-#line 146 "E:\ResturentDemo\Resturent\Pages\Users.razor"
+#line 159 "E:\ResturentDemo\Resturent\Pages\Users.razor"
                           
-        if ($"{element.UserName} {element.MobileNo}".Contains(searchString))
-            return true;
+    if ($"{element.UserName} {element.MobileNo}".Contains(searchString))
+        return true;
 
-        return false;
-    }
-    //delete
-    protected void Delete(long UserId)
+    return false;
+}
+
+//delete
+protected void Delete(long UserId)
+{
+    objUserService.Delete(UserId);
+    GetUsers();
+
+}
+//multiDelete
+protected void DeleteMulti(long[] num)
+{
+    foreach (long x in num)
     {
-        objUserService.Delete(UserId);
-        GetUsers();
-
+        objUserService.Delete(x);
     }
+    GetUsers();
+}
 
-    //----------------------------------------Excel export----------------------------------//
 
-    public async Task GenerateExcel()
+
+//----------------------------------------Excel export----------------------------------//
+
+public async Task GenerateExcel()
+{
+    objUser = objUserService.GetUser();
+
+    IWorkbook workbook = new XSSFWorkbook();
+
+    var dataformat = workbook.CreateDataFormat();
+    var datastyle = workbook.CreateCellStyle();
+    datastyle.DataFormat = dataformat.GetFormat("dd - MMM - yyyy hh: mm");
+
+    ISheet worksheet = workbook.CreateSheet("Sheet1");
+
+    int rowNumber = 0;
+    IRow row = worksheet.CreateRow(rowNumber++);
+
+    //-------------------------sheet header------------------
+
+    ICell cell = row.CreateCell(0);
+    cell.SetCellValue("User Name");
+
+    cell = row.CreateCell(1);
+    cell.SetCellValue("Email Id");
+
+    cell = row.CreateCell(2);
+    cell.SetCellValue("Mobile No.");
+
+    cell = row.CreateCell(3);
+    cell.SetCellValue("Entry Date");
+
+    cell = row.CreateCell(4);
+    cell.SetCellValue("Modify Date");
+
+
+    //sheet value
+
+    foreach (var user in objUser)
     {
-        objUser = objUserService.GetUser();
 
-        IWorkbook workbook = new XSSFWorkbook();
+        row = worksheet.CreateRow(rowNumber++);
 
-        var dataformat = workbook.CreateDataFormat();
-        var datastyle = workbook.CreateCellStyle();
-        datastyle.DataFormat = dataformat.GetFormat("dd - MMM - yyyy hh: mm");
-
-        ISheet worksheet = workbook.CreateSheet("Sheet1");
-
-        int rowNumber = 0;
-        IRow row = worksheet.CreateRow(rowNumber++);
-
-        //-------------------------sheet header------------------
-
-        ICell cell = row.CreateCell(0);
-        cell.SetCellValue("User Name");
+        cell = row.CreateCell(0);
+        cell.SetCellValue(user.UserName);
 
         cell = row.CreateCell(1);
-        cell.SetCellValue("Email Id");
+        cell.SetCellValue(user.EmailId);
 
         cell = row.CreateCell(2);
-        cell.SetCellValue("Mobile No.");
+        cell.SetCellValue(user.MobileNo);
 
         cell = row.CreateCell(3);
-        cell.SetCellValue("Entry Date");
+        cell.SetCellValue(user.EDate?.ToString("dd-MMM-yyyy hh:mm"));
 
         cell = row.CreateCell(4);
-        cell.SetCellValue("Modify Date");
+        cell.SetCellValue(user.MDate?.ToString("dd-MMM-yyyy hh:mm"));
 
-
-        //sheet value
-
-        foreach (var user in objUser)
-        {
-
-            row = worksheet.CreateRow(rowNumber++);
-
-            cell = row.CreateCell(0);
-            cell.SetCellValue(user.UserName);
-
-            cell = row.CreateCell(1);
-            cell.SetCellValue(user.EmailId);
-
-            cell = row.CreateCell(2);
-            cell.SetCellValue(user.MobileNo);
-
-            cell = row.CreateCell(3);
-            cell.SetCellValue(user.EDate?.ToString("dd-MMM-yyyy hh:mm"));
-
-            cell = row.CreateCell(4);
-            cell.SetCellValue(user.MDate?.ToString("dd-MMM-yyyy hh:mm"));
-
-
-
-        }
-
-
-        MemoryStream ms = new MemoryStream();
-        workbook.Write(ms);
-        byte[] bytes = ms.ToArray();
-        ms.Close();
-
-        await jsruntime.SaveAsFileAsync("User List", bytes, "application/vnd.ms-excel");
 
 
     }
+
+
+    MemoryStream ms = new MemoryStream();
+    workbook.Write(ms);
+    byte[] bytes = ms.ToArray();
+    ms.Close();
+
+    await jsruntime.SaveAsFileAsync("User List", bytes, "application/vnd.ms-excel");
+
+
+}
 
 
 #line default

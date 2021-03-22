@@ -5,14 +5,12 @@ using System.Collections.Generic;
 
 namespace Resturent.Models
 {
-    public partial class User
+    public partial class Table
     {
-        public long UserId { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string EmailId { get; set; }
-        public string EmailPass { get; set; }
-        public string MobileNo { get; set; }
+        public long TableId { get; set; }
+        public long? UserId { get; set; }
+        public string TableName { get; set; }
+        public string TableDesc { get; set; }
         public bool? IsAdmin { get; set; }
         public bool? Status { get; set; }
         public bool? IsActive { get; set; }

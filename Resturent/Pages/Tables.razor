@@ -1,0 +1,183 @@
+﻿@page "/table"
+@using Resturent.Models;
+@inject IJSRuntime jsruntime
+@inject TableService objTableService
+@inject NavigationManager NavigationManager
+@if (objTable == null)
+{
+    <p>Loading....</p>
+}
+else
+{
+    <MudTable Items="@objTable" MultiSelection="true" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<Table, bool>(FilterFunc)" @bind-SelectedItems="selectedItems">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Add Table</MudText>
+            <a href="/addTable">
+                <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Small" Class="ma-2" />
+            </a>
+            <MudToolBarSpacer />
+            <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+
+
+
+
+
+        </ToolBarContent>
+        <HeaderContent>
+
+            <MudTh><MudTableSortLabel SortBy="new Func<Table, object>(x=>x.TableName)"><strong>Table Name</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Table, object>(x=>x.TableDesc)"><strong>Table Desc</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Table, object>(x=>x.IsAdmin)"><strong>Is Admin</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Table, object>(x=>x.IsActive)"><strong>Is Active</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Table, object>(x=>x.EDate)"><strong>Entry Date</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Table, object>(x=>x.MDate)"><strong>Modify Date</strong></MudTableSortLabel></MudTh>
+            <MudTh><strong>Actions</strong></MudTh>
+
+
+
+
+        </HeaderContent>
+
+        <RowTemplate>
+
+
+            <MudTd DataLabel="Table Name">@context.TableName</MudTd>
+            <MudTd DataLabel="Table Desc">@context.TableDesc</MudTd>
+            <MudTd DataLabel="Is Admin">@(context.IsAdmin == true ? "Yes" : "No")</MudTd>
+            <MudTd DataLabel="Is Active">@(context.IsActive == true ? "Yes" : "No")</MudTd>
+            <MudTd DataLabel="Entry Date">@context.EDate?.ToString("dd-MMM-yyyy hh:mm")</MudTd>
+            <MudTd DataLabel="Modify Date">@context.MDate?.ToString("dd-MMM-yyyy hh:mm")</MudTd>
+            <MudTd DataLabel="Action">
+
+
+
+
+                <a href="/editUser/@context.UserId">
+                    <MudFab Color="Color.Secondary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small" />
+                </a>
+
+                <MudFab Color="Color.Primary" @onclick="@(()=>Delete(@context.TableId))" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small" />
+
+
+
+            </MudTd>
+
+        </RowTemplate>
+
+
+
+
+        <PagerContent>
+            <MudTablePager />
+
+        </PagerContent>
+
+
+    </MudTable>
+
+    <MudToolBar>
+        <MudSwitch @bind-Checked="@hover" Color="Color.Primary">Hover</MudSwitch>
+        <MudSwitch @bind-Checked="@dense" Color="Color.Secondary">Dense</MudSwitch>
+        <MudSwitch @bind-Checked="@striped" Color="Color.Tertiary">Striped</MudSwitch>
+        <MudSwitch @bind-Checked="@bordered" Color="Color.Warning">Bordered</MudSwitch>
+        <MudToolBarSpacer />
+        <div style="min-width:200px;">
+
+
+
+            <MudText Inline="true">Selected items: @(selectedItems == null ? "" : string.Join(", ", selectedItems.OrderBy(x => x.TableName).Select(x => x.TableName)))</MudText>
+        </div>
+
+
+
+    </MudToolBar>
+
+    @*<MudButton Variant="Variant.Filled" OnClick="@(async()=> { await GenerateExcel(); })" StartIcon="fas fa-file-excel" Color="Color.Primary" Size="Size.Small">Save to excel</MudButton>*@
+
+
+
+    <MudButton Variant="Variant.Filled" @onclick="@(()=>DeleteMulti(selectedItems.Select(x => x.TableId).ToArray()))" StartIcon="fas fa-user-times" Color="Color.Secondary" Size="Size.Small">Delete Selected</MudButton>
+
+
+
+
+
+
+
+}
+
+
+@code {
+
+
+
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = false;
+    private bool bordered = false;
+    private string searchString = "";
+
+
+
+
+    List<Table> objTable;
+    
+    Table obj = new Table();
+
+    private HashSet<Table> selectedItems = new HashSet<Table>();
+    private HashSet<Table> table = new HashSet<Table>();
+
+
+
+    //display
+    private HashSet<Table> GetTable()
+    {
+
+        objTable = objTableService.GetTable(); //after delete display
+        return table;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        objTable = await Task.Run(() => objTableService.GetTable());
+
+    }
+
+
+    //search
+    private bool FilterFunc(Table element)
+    {
+        @*if (string.IsNullOrWhiteSpace(searchString))
+            return true;*@
+        @* if (element.UserName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;*@
+        @* if (element.MobileNo.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;*@
+    if ($"{element.TableName} {element.TableDesc}".Contains(searchString))
+        return true;
+
+    return false;
+}
+
+//delete
+protected void Delete(long TableId)
+{
+    objTableService.Delete(TableId);
+    GetTable();
+
+}
+//multiDelete
+protected void DeleteMulti(long[] num)
+{
+    foreach (long x in num)
+    {
+        objTableService.Delete(x);
+    }
+    GetTable();
+}
+
+
+
+//----------------------------------------Excel export----------------------------------//
+
+}

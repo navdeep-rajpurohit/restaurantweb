@@ -3,6 +3,7 @@
 @using NPOI.SS.UserModel
 @using NPOI.XSSF.UserModel
 @using System.IO
+@using Microsoft.AspNetCore.Components;
 @inject IJSRuntime jsruntime
 @inject UserService objUserService
 @inject NavigationManager NavigationManager
@@ -19,7 +20,12 @@ else
                 <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Small" Class="ma-2" />
             </a>
             <MudToolBarSpacer />
-            <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            <MudTextField @bind-Value="searchString"  Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+
+            
+
+
+
         </ToolBarContent>
         <HeaderContent>
 
@@ -38,7 +44,7 @@ else
 
         <RowTemplate>
 
-            
+
             <MudTd DataLabel="User Name">@context.UserName</MudTd>
             <MudTd DataLabel="Email Id">@context.EmailId</MudTd>
             <MudTd DataLabel="Is Admin">@(context.IsAdmin == true ? "Yes" : "No")</MudTd>
@@ -67,6 +73,7 @@ else
 
         <PagerContent>
             <MudTablePager />
+
         </PagerContent>
 
 
@@ -85,13 +92,20 @@ else
             <MudText Inline="true">Selected items: @(selectedItems == null ? "" : string.Join(", ", selectedItems.OrderBy(x => x.UserName).Select(x => x.UserName)))</MudText>
         </div>
 
-        @*<MudButton Variant="Variant.Filled" OnClick="@(async()=> { await GenerateExcel(); })">Default</MudButton>*@
+
 
     </MudToolBar>
 
-    <MudButton Variant="Variant.Filled" OnClick="@(async()=> { await GenerateExcel(); })" StartIcon="fas fa-file-excel" Color="Color.Info" Size="Size.Small">Save to excel</MudButton>
+    <MudButton Variant="Variant.Filled" OnClick="@(async()=> { await GenerateExcel(); })" StartIcon="fas fa-file-excel" Color="Color.Primary" Size="Size.Small">Save to excel</MudButton> 
 
     
+
+    <MudButton Variant="Variant.Filled" @onclick="@(()=>DeleteMulti(selectedItems.Select(x => x.UserId).ToArray()))" StartIcon="fas fa-user-times" Color="Color.Secondary" Size="Size.Small">Delete Selected</MudButton>
+
+
+
+
+
 
 
 }
@@ -107,13 +121,11 @@ else
     private bool bordered = false;
     private string searchString = "";
 
-    
-
-
 
 
 
     List<User> objUser;
+    List<User> objUser1;
     User obj = new User();
 
     private HashSet<User> selectedItems = new HashSet<User>();
@@ -124,6 +136,7 @@ else
     //display
     private HashSet<User> GetUsers()
     {
+
         objUser = objUserService.GetUser(); //after delete display
         return user;
     }
@@ -144,89 +157,101 @@ else
             return true;*@
         @* if (element.MobileNo.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;*@
-        if ($"{element.UserName} {element.MobileNo}".Contains(searchString))
-            return true;
+    if ($"{element.UserName} {element.MobileNo}".Contains(searchString))
+        return true;
 
-        return false;
-    }
-    //delete
-    protected void Delete(long UserId)
+    return false;
+}
+
+//delete
+protected void Delete(long UserId)
+{
+    objUserService.Delete(UserId);
+    GetUsers();
+
+}
+//multiDelete
+protected void DeleteMulti(long[] num)
+{
+    foreach (long x in num)
     {
-        objUserService.Delete(UserId);
-        GetUsers();
-
+        objUserService.Delete(x);
     }
+    GetUsers();
+}
 
-    //----------------------------------------Excel export----------------------------------//
 
-    public async Task GenerateExcel()
+
+//----------------------------------------Excel export----------------------------------//
+
+public async Task GenerateExcel()
+{
+    objUser = objUserService.GetUser();
+
+    IWorkbook workbook = new XSSFWorkbook();
+
+    var dataformat = workbook.CreateDataFormat();
+    var datastyle = workbook.CreateCellStyle();
+    datastyle.DataFormat = dataformat.GetFormat("dd - MMM - yyyy hh: mm");
+
+    ISheet worksheet = workbook.CreateSheet("Sheet1");
+
+    int rowNumber = 0;
+    IRow row = worksheet.CreateRow(rowNumber++);
+
+    //-------------------------sheet header------------------
+
+    ICell cell = row.CreateCell(0);
+    cell.SetCellValue("User Name");
+
+    cell = row.CreateCell(1);
+    cell.SetCellValue("Email Id");
+
+    cell = row.CreateCell(2);
+    cell.SetCellValue("Mobile No.");
+
+    cell = row.CreateCell(3);
+    cell.SetCellValue("Entry Date");
+
+    cell = row.CreateCell(4);
+    cell.SetCellValue("Modify Date");
+
+
+    //sheet value
+
+    foreach (var user in objUser)
     {
-        objUser = objUserService.GetUser();
 
-        IWorkbook workbook = new XSSFWorkbook();
+        row = worksheet.CreateRow(rowNumber++);
 
-        var dataformat = workbook.CreateDataFormat();
-        var datastyle = workbook.CreateCellStyle();
-        datastyle.DataFormat = dataformat.GetFormat("dd - MMM - yyyy hh: mm");
-
-        ISheet worksheet = workbook.CreateSheet("Sheet1");
-
-        int rowNumber = 0;
-        IRow row = worksheet.CreateRow(rowNumber++);
-
-        //-------------------------sheet header------------------
-
-        ICell cell = row.CreateCell(0);
-        cell.SetCellValue("User Name");
+        cell = row.CreateCell(0);
+        cell.SetCellValue(user.UserName);
 
         cell = row.CreateCell(1);
-        cell.SetCellValue("Email Id");
+        cell.SetCellValue(user.EmailId);
 
         cell = row.CreateCell(2);
-        cell.SetCellValue("Mobile No.");
+        cell.SetCellValue(user.MobileNo);
 
         cell = row.CreateCell(3);
-        cell.SetCellValue("Entry Date");
+        cell.SetCellValue(user.EDate?.ToString("dd-MMM-yyyy hh:mm"));
 
         cell = row.CreateCell(4);
-        cell.SetCellValue("Modify Date");
+        cell.SetCellValue(user.MDate?.ToString("dd-MMM-yyyy hh:mm"));
 
-
-        //sheet value
-
-        foreach (var user in objUser)
-        {
-
-            row = worksheet.CreateRow(rowNumber++);
-
-            cell = row.CreateCell(0);
-            cell.SetCellValue(user.UserName);
-
-            cell = row.CreateCell(1);
-            cell.SetCellValue(user.EmailId);
-
-            cell = row.CreateCell(2);
-            cell.SetCellValue(user.MobileNo);
-
-            cell = row.CreateCell(3);
-            cell.SetCellValue(user.EDate?.ToString("dd-MMM-yyyy hh:mm"));
-
-            cell = row.CreateCell(4);
-            cell.SetCellValue(user.MDate?.ToString("dd-MMM-yyyy hh:mm"));
-
-
-
-        }
-
-
-        MemoryStream ms = new MemoryStream();
-        workbook.Write(ms);
-        byte[] bytes = ms.ToArray();
-        ms.Close();
-
-        await jsruntime.SaveAsFileAsync("User List", bytes, "application/vnd.ms-excel");
 
 
     }
+
+
+    MemoryStream ms = new MemoryStream();
+    workbook.Write(ms);
+    byte[] bytes = ms.ToArray();
+    ms.Close();
+
+    await jsruntime.SaveAsFileAsync("User List", bytes, "application/vnd.ms-excel");
+
+
+}
 
 }

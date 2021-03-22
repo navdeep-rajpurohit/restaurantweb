@@ -10,7 +10,6 @@ E:\ResturentDemo\Resturent\bin\Debug\net5.0\ref\Resturent.dll
 E:\ResturentDemo\Resturent\bin\Debug\net5.0\Resturent.pdb
 E:\ResturentDemo\Resturent\bin\Debug\net5.0\Resturent.Views.dll
 E:\ResturentDemo\Resturent\bin\Debug\net5.0\Resturent.Views.pdb
-E:\ResturentDemo\Resturent\obj\Debug\net5.0\Resturent.csprojAssemblyReference.cache
 E:\ResturentDemo\Resturent\obj\Debug\net5.0\Resturent.GeneratedMSBuildEditorConfig.editorconfig
 E:\ResturentDemo\Resturent\obj\Debug\net5.0\Resturent.AssemblyInfoInputs.cache
 E:\ResturentDemo\Resturent\obj\Debug\net5.0\Resturent.AssemblyInfo.cs
@@ -90,11 +89,6 @@ E:\ResturentDemo\Resturent\obj\Debug\net5.0\RazorDeclaration\Pages\Users.razor.g
 E:\ResturentDemo\Resturent\obj\Debug\net5.0\Razor\Pages\Users.razor.g.cs
 E:\ResturentDemo\Resturent\obj\Debug\net5.0\RazorDeclaration\Pages\AddUser.razor.g.cs
 E:\ResturentDemo\Resturent\obj\Debug\net5.0\Razor\Pages\AddUser.razor.g.cs
-E:\ResturentDemo\Resturent\bin\Debug\net5.0\Newtonsoft.Json.dll
-E:\ResturentDemo\Resturent\bin\Debug\net5.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.pdb
-E:\ResturentDemo\Resturent\bin\Debug\net5.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.pdb
-E:\ResturentDemo\Resturent\bin\Debug\net5.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.pdb
-E:\ResturentDemo\Resturent\bin\Debug\net5.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
 E:\ResturentDemo\Resturent\obj\Debug\net5.0\RazorDeclaration\Pages\EditUser.razor.g.cs
 E:\ResturentDemo\Resturent\obj\Debug\net5.0\Razor\Pages\EditUser.razor.g.cs
 E:\ResturentDemo\Resturent\bin\Debug\net5.0\Microsoft.AspNetCore.Authorization.dll
@@ -111,3 +105,13 @@ E:\ResturentDemo\Resturent\bin\Debug\net5.0\NPOI.OpenXmlFormats.dll
 E:\ResturentDemo\Resturent\bin\Debug\net5.0\NPOI.dll
 E:\ResturentDemo\Resturent\bin\Debug\net5.0\BouncyCastle.Crypto.dll
 E:\ResturentDemo\Resturent\bin\Debug\net5.0\ICSharpCode.SharpZipLib.dll
+E:\ResturentDemo\Resturent\obj\Debug\net5.0\Resturent.csprojAssemblyReference.cache
+E:\ResturentDemo\Resturent\bin\Debug\net5.0\Newtonsoft.Json.dll
+E:\ResturentDemo\Resturent\bin\Debug\net5.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.pdb
+E:\ResturentDemo\Resturent\bin\Debug\net5.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.pdb
+E:\ResturentDemo\Resturent\bin\Debug\net5.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.pdb
+E:\ResturentDemo\Resturent\bin\Debug\net5.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
+E:\ResturentDemo\Resturent\obj\Debug\net5.0\RazorDeclaration\Pages\Tables.razor.g.cs
+E:\ResturentDemo\Resturent\obj\Debug\net5.0\Razor\Pages\Tables.razor.g.cs
+E:\ResturentDemo\Resturent\obj\Debug\net5.0\RazorDeclaration\Pages\AddTable.razor.g.cs
+E:\ResturentDemo\Resturent\obj\Debug\net5.0\Razor\Pages\AddTable.razor.g.cs

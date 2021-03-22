@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace Resturent.Shared
+namespace Resturent.Pages
 {
     #line hidden
     using System;
@@ -89,7 +89,15 @@ using MudBlazor;
 #line default
 #line hidden
 #nullable disable
-    public partial class NavMenu : Microsoft.AspNetCore.Components.ComponentBase
+#nullable restore
+#line 2 "E:\ResturentDemo\Resturent\Pages\Tables.razor"
+using Resturent.Models;
+
+#line default
+#line hidden
+#nullable disable
+    [Microsoft.AspNetCore.Components.RouteAttribute("/table")]
+    public partial class Tables : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -97,20 +105,89 @@ using MudBlazor;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 33 "E:\ResturentDemo\Resturent\Shared\NavMenu.razor"
+#line 110 "E:\ResturentDemo\Resturent\Pages\Tables.razor"
        
-    private bool collapseNavMenu = true;
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    private void ToggleNavMenu()
+
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = false;
+    private bool bordered = false;
+    private string searchString = "";
+
+
+
+
+    List<Table> objTable;
+    
+    Table obj = new Table();
+
+    private HashSet<Table> selectedItems = new HashSet<Table>();
+    private HashSet<Table> table = new HashSet<Table>();
+
+
+
+    //display
+    private HashSet<Table> GetTable()
     {
-        collapseNavMenu = !collapseNavMenu;
+
+        objTable = objTableService.GetTable(); //after delete display
+        return table;
     }
+
+    protected override async Task OnInitializedAsync()
+    {
+        objTable = await Task.Run(() => objTableService.GetTable());
+
+    }
+
+
+    //search
+    private bool FilterFunc(Table element)
+    {
+        
 
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 155 "E:\ResturentDemo\Resturent\Pages\Tables.razor"
+                          
+    if ($"{element.TableName} {element.TableDesc}".Contains(searchString))
+        return true;
+
+    return false;
+}
+
+//delete
+protected void Delete(long TableId)
+{
+    objTableService.Delete(TableId);
+    GetTable();
+
+}
+//multiDelete
+protected void DeleteMulti(long[] num)
+{
+    foreach (long x in num)
+    {
+        objTableService.Delete(x);
+    }
+    GetTable();
+}
+
+
+
+//----------------------------------------Excel export----------------------------------//
+
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private TableService objTableService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime jsruntime { get; set; }
     }
 }
 #pragma warning restore 1591

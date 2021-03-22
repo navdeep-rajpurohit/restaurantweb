@@ -33,6 +33,7 @@ namespace Resturent
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddScoped<UserService>();
+            services.AddScoped<TableService>();
             services.AddDbContext<OmDemoContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("OmDemoDatabase"))  //specify
                 );
