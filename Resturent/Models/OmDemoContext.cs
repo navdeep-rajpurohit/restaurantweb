@@ -19,13 +19,14 @@ namespace Resturent.Models
 
         public virtual DbSet<Table> Tables { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Variation> Variations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=.\\SQLEXPRESS; Database=OmDemo; Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("server=.\\MSSQLSERVER01; Database=OmDemo; Trusted_Connection=True;");
             }
         }
 
@@ -37,7 +38,7 @@ namespace Resturent.Models
             {
                 entity.ToTable("Table", "Config");
 
-                entity.HasIndex(e => e.TableName, "UQ__Table__733652EEC9125F31")
+                entity.HasIndex(e => e.TableName, "UQ__Table__733652EE8B5A4348")
                     .IsUnique();
 
                 entity.Property(e => e.TableId).HasColumnName("TableID");
@@ -67,7 +68,7 @@ namespace Resturent.Models
             {
                 entity.ToTable("User", "Account");
 
-                entity.HasIndex(e => e.UserName, "UQ__User__C9F28456FA872635")
+                entity.HasIndex(e => e.UserName, "UQ__User__C9F28456C1555FAD")
                     .IsUnique();
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
@@ -97,6 +98,32 @@ namespace Resturent.Models
                 entity.Property(e => e.Status).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.UserName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Variation>(entity =>
+            {
+                entity.ToTable("Variation", "Config");
+
+                entity.HasIndex(e => e.VariationName, "UQ__Variatio__EF20A5A4BC00CF14")
+                    .IsUnique();
+
+                entity.Property(e => e.VariationId).HasColumnName("VariationID");
+
+                entity.Property(e => e.EDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("eDate");
+
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.MDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("mDate");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.VariationName)
                     .HasMaxLength(100)
                     .IsUnicode(false);
             });

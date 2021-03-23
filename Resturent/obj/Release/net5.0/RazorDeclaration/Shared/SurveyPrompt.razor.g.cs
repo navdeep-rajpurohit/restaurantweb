@@ -13,71 +13,78 @@ namespace Resturent.Shared
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 1 "D:\internship\Resturent\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 2 "D:\internship\Resturent\_Imports.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 3 "D:\internship\Resturent\_Imports.razor"
 using Microsoft.AspNetCore.Components.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 4 "D:\internship\Resturent\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 5 "D:\internship\Resturent\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 6 "D:\internship\Resturent\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 7 "D:\internship\Resturent\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 8 "D:\internship\Resturent\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 9 "D:\internship\Resturent\_Imports.razor"
 using Resturent;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 10 "D:\internship\Resturent\_Imports.razor"
 using Resturent.Shared;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 11 "D:\internship\Resturent\_Imports.razor"
+using MudBlazor;
 
 #line default
 #line hidden
@@ -90,7 +97,7 @@ using Resturent.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 12 "E:\ResturentDemo\Resturent\Shared\SurveyPrompt.razor"
+#line 12 "D:\internship\Resturent\Shared\SurveyPrompt.razor"
        
     // Demonstrates how a parent component can supply parameters
     [Parameter]

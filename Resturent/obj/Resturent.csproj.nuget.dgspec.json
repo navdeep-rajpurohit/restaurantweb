@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\ResturentDemo\\Resturent\\Resturent.csproj": {}
+    "D:\\internship\\Resturent\\Resturent.csproj": {}
   },
   "projects": {
-    "E:\\ResturentDemo\\Resturent\\Resturent.csproj": {
+    "D:\\internship\\Resturent\\Resturent.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\ResturentDemo\\Resturent\\Resturent.csproj",
+        "projectUniqueName": "D:\\internship\\Resturent\\Resturent.csproj",
         "projectName": "Resturent",
-        "projectPath": "E:\\ResturentDemo\\Resturent\\Resturent.csproj",
-        "packagesPath": "C:\\Users\\Debojit Paul\\.nuget\\packages\\",
-        "outputPath": "E:\\ResturentDemo\\Resturent\\obj\\",
+        "projectPath": "D:\\internship\\Resturent\\Resturent.csproj",
+        "packagesPath": "C:\\Users\\Vishal\\.nuget\\packages\\",
+        "outputPath": "D:\\internship\\Resturent\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Debojit Paul\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Vishal\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -87,7 +87,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-preview.1.21103.13\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
         }
       }
     }

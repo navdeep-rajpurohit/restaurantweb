@@ -1,0 +1,87 @@
+﻿@page "/editTable/{CurrentId}"
+@using Resturent.Models
+@inject TableService objaTableService
+@inject NavigationManager NavigationManager
+<h3>Edit Table</h3>
+<form>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objTable.TableName" Label="Table Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objTable.TableDesc" T="string" Label="Table Description" Variant="Variant.Outlined" Margin="Margin.Dense" Lines="5" />
+        </div>
+    </div>
+
+    <div class="form-row">
+
+        <div class="form-group col-md-2">
+            <label for="inputPassword4">Is Admin</label>
+            <label class="switch">
+                <input type="checkbox" @bind="objTable.IsAdmin">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="inputPassword4">Is Active</label>
+            <label class="switch">
+                <input type="checkbox" @bind="objTable.IsActive">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputPassword4">Status</label>
+            <label class="switch">
+                <input type="checkbox" @bind="objTable.Status">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@UpdateTable" value="Update" />
+                <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
+
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@code {
+    [Parameter]
+    public string CurrentId { get; set; }
+
+    Table objTable = new Table();
+
+    private DateTime mDate;
+    protected override void OnInitialized()
+    {
+        mDate = DateTime.Now;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        objTable = await Task.Run(() => objaTableService.GetTableById(Convert.ToInt32(CurrentId)));
+    }
+
+    void UpdateTable()
+    {
+        objTable.MDate = mDate;
+        objaTableService.Update(objTable);
+        NavigationManager.NavigateTo("table");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("table");
+    }
+
+
+
+}
