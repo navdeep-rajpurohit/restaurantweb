@@ -90,14 +90,14 @@ using MudBlazor;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "D:\internship\Resturent\Pages\EditVariation.razor"
+#line 2 "D:\internship\Resturent\Pages\EditAddon.razor"
 using Resturent.Models;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/editVariation/{CurrentId}")]
-    public partial class EditVariation : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/editAddon/{CurrentId}")]
+    public partial class EditAddon : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -105,12 +105,12 @@ using Resturent.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 45 "D:\internship\Resturent\Pages\EditVariation.razor"
+#line 45 "D:\internship\Resturent\Pages\EditAddon.razor"
        
     [Parameter]
     public string CurrentId { get; set; }
 
-    Variation objVariation = new Variation();
+    Addon objAddon = new Addon();
 
     private DateTime mDate;
     protected override void OnInitialized()
@@ -120,28 +120,28 @@ using Resturent.Models;
 
     protected override async Task OnInitializedAsync()
     {
-        objVariation = await Task.Run(() => objVariationService.GetVariationById(Convert.ToInt32(CurrentId)));
+        objAddon = await Task.Run(() => objAddonService.GetAddonById(Convert.ToInt32(CurrentId)));
     }
 
-    void UpdateVariation()
+    void UpdateAddon()
     {
-        objVariation.MDate = mDate;
-        objVariationService.Update(objVariation);
-        NavigationManager.NavigateTo("variation");
+        objAddon.MDate = mDate;
+        objAddonService.Update(objAddon);
+        NavigationManager.NavigateTo("addon");
     }
     void Cancel()
     {
-        NavigationManager.NavigateTo("variation");
+        NavigationManager.NavigateTo("addon");
     }
 
 
-   
+
 
 #line default
 #line hidden
 #nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private VariationService objVariationService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private AddonService objAddonService { get; set; }
     }
 }
 #pragma warning restore 1591

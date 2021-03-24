@@ -17,6 +17,7 @@ namespace Resturent.Models
         {
         }
 
+        public virtual DbSet<Addon> Addons { get; set; }
         public virtual DbSet<Table> Tables { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Variation> Variations { get; set; }
@@ -33,6 +34,32 @@ namespace Resturent.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+            modelBuilder.Entity<Addon>(entity =>
+            {
+                entity.ToTable("Addon", "Config");
+
+                entity.HasIndex(e => e.AddonName, "UQ__Addon__F83A0AD335915A4B")
+                    .IsUnique();
+
+                entity.Property(e => e.AddonId).HasColumnName("AddonID");
+
+                entity.Property(e => e.AddonName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("eDate");
+
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.MDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("mDate");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((0))");
+            });
 
             modelBuilder.Entity<Table>(entity =>
             {

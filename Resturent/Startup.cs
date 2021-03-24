@@ -35,6 +35,7 @@ namespace Resturent
             services.AddScoped<UserService>();
             services.AddScoped<TableService>();
             services.AddScoped<VariationService>();
+            services.AddScoped<AddonService>();
             services.AddDbContext<OmDemoContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("OmDemoDatabase"))  //specify
                 );

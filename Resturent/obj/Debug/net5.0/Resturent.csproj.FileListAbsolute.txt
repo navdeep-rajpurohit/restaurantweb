@@ -240,3 +240,9 @@ D:\internship\Resturent\obj\Debug\net5.0\RazorDeclaration\Pages\EditVariation.ra
 D:\internship\Resturent\obj\Debug\net5.0\Razor\Pages\EditVariation.razor.g.cs
 D:\internship\Resturent\obj\Debug\net5.0\RazorDeclaration\Pages\EditTable.razor.g.cs
 D:\internship\Resturent\obj\Debug\net5.0\Razor\Pages\EditTable.razor.g.cs
+D:\internship\Resturent\obj\Debug\net5.0\RazorDeclaration\Pages\Addons.razor.g.cs
+D:\internship\Resturent\obj\Debug\net5.0\Razor\Pages\Addons.razor.g.cs
+D:\internship\Resturent\obj\Debug\net5.0\RazorDeclaration\Pages\Add_Addon.razor.g.cs
+D:\internship\Resturent\obj\Debug\net5.0\Razor\Pages\Add_Addon.razor.g.cs
+D:\internship\Resturent\obj\Debug\net5.0\RazorDeclaration\Pages\EditAddon.razor.g.cs
+D:\internship\Resturent\obj\Debug\net5.0\Razor\Pages\EditAddon.razor.g.cs

@@ -90,14 +90,14 @@ using MudBlazor;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "D:\internship\Resturent\Pages\EditVariation.razor"
+#line 2 "D:\internship\Resturent\Pages\Addons.razor"
 using Resturent.Models;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/editVariation/{CurrentId}")]
-    public partial class EditVariation : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/addon")]
+    public partial class Addons : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -105,43 +105,87 @@ using Resturent.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 45 "D:\internship\Resturent\Pages\EditVariation.razor"
+#line 106 "D:\internship\Resturent\Pages\Addons.razor"
        
-    [Parameter]
-    public string CurrentId { get; set; }
 
-    Variation objVariation = new Variation();
 
-    private DateTime mDate;
-    protected override void OnInitialized()
+
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = false;
+    private bool bordered = false;
+    private string searchString = "";
+
+
+
+
+    List<Addon> objAddon;
+
+    private HashSet<Addon> selectedItems = new HashSet<Addon>();
+    private HashSet<Addon> addon = new HashSet<Addon>();
+
+
+
+    //display
+    private HashSet<Addon> GetAddon()
     {
-        mDate = DateTime.Now;
+
+        objAddon = objAddonService.GetAddon(); //after delete display
+        return addon;
     }
 
     protected override async Task OnInitializedAsync()
     {
-        objVariation = await Task.Run(() => objVariationService.GetVariationById(Convert.ToInt32(CurrentId)));
+        objAddon = await Task.Run(() => objAddonService.GetAddon());
+
     }
 
-    void UpdateVariation()
+
+    //search
+    private bool FilterFunc(Addon element)
     {
-        objVariation.MDate = mDate;
-        objVariationService.Update(objVariation);
-        NavigationManager.NavigateTo("variation");
+        
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 149 "D:\internship\Resturent\Pages\Addons.razor"
+                          
+        if ($"{element.AddonName}".Contains(searchString))
+            return true;
+
+        return false;
     }
-    void Cancel()
+
+    //delete
+    protected void Delete(long AddonId)
     {
-        NavigationManager.NavigateTo("variation");
+        objAddonService.Delete(AddonId);
+        GetAddon();
+
+    }
+    //multiDelete
+    protected void DeleteMulti(long[] num)
+    {
+        foreach (long x in num)
+        {
+            objAddonService.Delete(x);
+        }
+        GetAddon();
     }
 
 
-   
+
+    //----------------------------------------Excel export----------------------------------//
+
 
 #line default
 #line hidden
 #nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private VariationService objVariationService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private AddonService objAddonService { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime jsruntime { get; set; }
     }
 }
 #pragma warning restore 1591

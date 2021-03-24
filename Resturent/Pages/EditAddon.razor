@@ -1,31 +1,31 @@
-﻿@page "/editVariation/{CurrentId}"
+﻿@page "/editAddon/{CurrentId}"
 @using Resturent.Models
-@inject VariationService objVariationService
+@inject AddonService objAddonService
 @inject NavigationManager NavigationManager
-<h3>AddUser</h3>
+<h3>Add Addon</h3>
 <form>
     <div class="form-row">
         <div class="form-group col-md-6">
-            <MudTextField @bind-Value="objVariation.VariationName" Label="Variation Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+            <MudTextField @bind-Value="objAddon.AddonName" Label="Variation Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
         </div>
-        
+
 
 
 
     </div>
     <div class="form-row">
-        
+
         <div class="form-group col-md-3">
             <label for="inputPassword4">Is Active</label>
             <label class="switch">
-                <input type="checkbox" @bind="objVariation.IsActive">
+                <input type="checkbox" @bind="objAddon.IsActive">
                 <span class="slider round"></span>
             </label>
         </div>
         <div class="form-group col-md-3">
             <label for="inputPassword4">Status</label>
             <label class="switch">
-                <input type="checkbox" @bind="objVariation.Status">
+                <input type="checkbox" @bind="objAddon.Status">
                 <span class="slider round"></span>
             </label>
         </div>
@@ -33,7 +33,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <input type="button" class="btn btn-primary" @onclick="@UpdateVariation" value="Update" />
+                <input type="button" class="btn btn-primary" @onclick="@UpdateAddon" value="Update" />
                 <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
 
             </div>
@@ -46,7 +46,7 @@
     [Parameter]
     public string CurrentId { get; set; }
 
-    Variation objVariation = new Variation();
+    Addon objAddon = new Addon();
 
     private DateTime mDate;
     protected override void OnInitialized()
@@ -56,20 +56,20 @@
 
     protected override async Task OnInitializedAsync()
     {
-        objVariation = await Task.Run(() => objVariationService.GetVariationById(Convert.ToInt32(CurrentId)));
+        objAddon = await Task.Run(() => objAddonService.GetAddonById(Convert.ToInt32(CurrentId)));
     }
 
-    void UpdateVariation()
+    void UpdateAddon()
     {
-        objVariation.MDate = mDate;
-        objVariationService.Update(objVariation);
-        NavigationManager.NavigateTo("variation");
+        objAddon.MDate = mDate;
+        objAddonService.Update(objAddon);
+        NavigationManager.NavigateTo("addon");
     }
     void Cancel()
     {
-        NavigationManager.NavigateTo("variation");
+        NavigationManager.NavigateTo("addon");
     }
 
 
-   
+
 }
