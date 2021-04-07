@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BlazorInputFile" Version="0.2.0" />
     <PackageReference Include="LiveSharp" Version="1.6.58" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.design" Version="5.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

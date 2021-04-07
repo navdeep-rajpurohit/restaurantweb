@@ -82,6 +82,13 @@ using Resturent.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 11 "E:\ResturentDemo\Resturent\_Imports.razor"
+using MudBlazor;
+
+#line default
+#line hidden
+#nullable disable
     public partial class NavMenu : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -90,7 +97,7 @@ using Resturent.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 28 "E:\ResturentDemo\Resturent\Shared\NavMenu.razor"
+#line 48 "E:\ResturentDemo\Resturent\Shared\NavMenu.razor"
        
     private bool collapseNavMenu = true;
 

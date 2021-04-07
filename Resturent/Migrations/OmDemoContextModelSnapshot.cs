@@ -20,6 +20,85 @@ namespace Resturent.Migrations
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Resturent.Models.Addon", b =>
+                {
+                    b.Property<long>("AddonId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("AddonID")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AddonName")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<DateTime?>("EDate")
+                        .HasColumnType("datetime")
+                        .HasColumnName("eDate");
+
+                    b.Property<bool?>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValueSql("((0))");
+
+                    b.Property<DateTime?>("MDate")
+                        .HasColumnType("datetime")
+                        .HasColumnName("mDate");
+
+                    b.Property<bool?>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValueSql("((0))");
+
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("AddonId");
+
+                    b.HasIndex(new[] { "AddonName" }, "UQ__Addon__F83A0AD335915A4B")
+                        .IsUnique()
+                        .HasFilter("[AddonName] IS NOT NULL");
+
+                    b.ToTable("Addon", "Config");
+                });
+
+            modelBuilder.Entity("Resturent.Models.Category", b =>
+                {
+                    b.Property<long>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("MDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("Resturent.Models.Table", b =>
                 {
                     b.Property<long>("TableId")
@@ -65,13 +144,11 @@ namespace Resturent.Migrations
 
                     b.HasKey("TableId");
 
-                    b.HasIndex("UserId");
-
-                    b.HasIndex(new[] { "TableName" }, "UQ__Tables__733652EE38157352")
+                    b.HasIndex(new[] { "TableName" }, "UQ__Table__733652EE8B5A4348")
                         .IsUnique()
                         .HasFilter("[TableName] IS NOT NULL");
 
-                    b.ToTable("Tables", "Config");
+                    b.ToTable("Table", "Config");
                 });
 
             modelBuilder.Entity("Resturent.Models.User", b =>
@@ -129,26 +206,54 @@ namespace Resturent.Migrations
 
                     b.HasKey("UserId");
 
-                    b.HasIndex(new[] { "UserName" }, "UQ__User__C9F28456FA872635")
+                    b.HasIndex(new[] { "UserName" }, "UQ__User__C9F28456C1555FAD")
                         .IsUnique()
                         .HasFilter("[UserName] IS NOT NULL");
 
                     b.ToTable("User", "Account");
                 });
 
-            modelBuilder.Entity("Resturent.Models.Table", b =>
+            modelBuilder.Entity("Resturent.Models.Variation", b =>
                 {
-                    b.HasOne("Resturent.Models.User", "User")
-                        .WithMany("Tables")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("FK__Tables__UserId__1F63A897");
+                    b.Property<long>("VariationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("VariationID")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Navigation("User");
-                });
+                    b.Property<DateTime?>("EDate")
+                        .HasColumnType("datetime")
+                        .HasColumnName("eDate");
 
-            modelBuilder.Entity("Resturent.Models.User", b =>
-                {
-                    b.Navigation("Tables");
+                    b.Property<bool?>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValueSql("((0))");
+
+                    b.Property<DateTime?>("MDate")
+                        .HasColumnType("datetime")
+                        .HasColumnName("mDate");
+
+                    b.Property<bool?>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValueSql("((0))");
+
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("VariationName")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("VariationId");
+
+                    b.HasIndex(new[] { "VariationName" }, "UQ__Variatio__EF20A5A4BC00CF14")
+                        .IsUnique()
+                        .HasFilter("[VariationName] IS NOT NULL");
+
+                    b.ToTable("Variation", "Config");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,112 +12,119 @@ namespace Resturent.Pages
     using System.Linq;
     using System.Threading.Tasks;
 #nullable restore
-#line 1 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 1 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 2 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/_Imports.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 3 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/_Imports.razor"
 using Microsoft.AspNetCore.Components.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 4 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 5 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 6 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 7 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/_Imports.razor"
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 8 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 9 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/_Imports.razor"
 using Resturent;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 10 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/_Imports.razor"
 using Resturent.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 11 "E:\ResturentDemo\Resturent\_Imports.razor"
+#line 11 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/_Imports.razor"
 using MudBlazor;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "E:\ResturentDemo\Resturent\Pages\Users.razor"
+#line 12 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/_Imports.razor"
+using BlazorInputFile;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 2 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/Pages/Users.razor"
 using Resturent.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "E:\ResturentDemo\Resturent\Pages\Users.razor"
+#line 3 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/Pages/Users.razor"
 using NPOI.SS.UserModel;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "E:\ResturentDemo\Resturent\Pages\Users.razor"
+#line 4 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/Pages/Users.razor"
 using NPOI.XSSF.UserModel;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "E:\ResturentDemo\Resturent\Pages\Users.razor"
+#line 5 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/Pages/Users.razor"
 using System.IO;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "E:\ResturentDemo\Resturent\Pages\Users.razor"
+#line 6 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/Pages/Users.razor"
 using Microsoft.AspNetCore.Components;
 
 #line default
@@ -132,7 +139,7 @@ using Microsoft.AspNetCore.Components;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 114 "E:\ResturentDemo\Resturent\Pages\Users.razor"
+#line 114 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/Pages/Users.razor"
        
 
 
@@ -179,7 +186,7 @@ using Microsoft.AspNetCore.Components;
 #line hidden
 #nullable disable
 #nullable restore
-#line 159 "E:\ResturentDemo\Resturent\Pages\Users.razor"
+#line 159 "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/Pages/Users.razor"
                           
     if ($"{element.UserName} {element.MobileNo}".Contains(searchString))
         return true;

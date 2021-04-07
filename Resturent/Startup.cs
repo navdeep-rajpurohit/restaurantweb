@@ -34,6 +34,10 @@ namespace Resturent
             services.AddSingleton<WeatherForecastService>();
             services.AddScoped<UserService>();
             services.AddScoped<TableService>();
+            services.AddScoped<VariationService>();
+            services.AddScoped<AddonService>();
+            services.AddScoped<CategoryService>();
+            services.AddScoped<ItemService>();
             services.AddDbContext<OmDemoContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("OmDemoDatabase"))  //specify
                 );

@@ -17,8 +17,12 @@ namespace Resturent.Models
         {
         }
 
+        public virtual DbSet<Addon> Addons { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<Table> Tables { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Variation> Variations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,6 +36,69 @@ namespace Resturent.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+            modelBuilder.Entity<Addon>(entity =>
+            {
+                entity.ToTable("Addon", "Config");
+
+                entity.HasIndex(e => e.AddonName, "UQ__Addon__F83A0AD342291596")
+                    .IsUnique();
+
+                entity.Property(e => e.AddonId).HasColumnName("AddonID");
+
+                entity.Property(e => e.AddonName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("eDate");
+
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.MDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("mDate");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((0))");
+            });
+
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.ToTable("Category", "Config");
+
+                entity.Property(e => e.CategoryName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Description).IsUnicode(false);
+
+                entity.Property(e => e.EDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("eDate");
+
+                entity.Property(e => e.Image).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.MDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("mDate");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((0))");
+            });
+
+            modelBuilder.Entity<Item>(entity =>
+            {
+                entity.ToTable("Items", "Config");
+
+                entity.HasIndex(e => e.ItemName, "UQ__Items__4E4373F7AB314DA9")
+                    .IsUnique();
+
+                entity.Property(e => e.ItemName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
 
             modelBuilder.Entity<Table>(entity =>
             {
@@ -97,6 +164,32 @@ namespace Resturent.Models
                 entity.Property(e => e.Status).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.UserName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Variation>(entity =>
+            {
+                entity.ToTable("Variation", "Config");
+
+                entity.HasIndex(e => e.VariationName, "UQ__Variatio__EF20A5A42EFA1CAE")
+                    .IsUnique();
+
+                entity.Property(e => e.VariationId).HasColumnName("VariationID");
+
+                entity.Property(e => e.EDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("eDate");
+
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.MDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("mDate");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.VariationName)
                     .HasMaxLength(100)
                     .IsUnicode(false);
             });

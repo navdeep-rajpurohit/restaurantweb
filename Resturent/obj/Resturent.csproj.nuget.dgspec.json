@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "E:\\ResturentDemo\\Resturent\\Resturent.csproj": {}
+    "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/Resturent.csproj": {}
   },
   "projects": {
-    "E:\\ResturentDemo\\Resturent\\Resturent.csproj": {
+    "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/Resturent.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\ResturentDemo\\Resturent\\Resturent.csproj",
+        "projectUniqueName": "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/Resturent.csproj",
         "projectName": "Resturent",
-        "projectPath": "E:\\ResturentDemo\\Resturent\\Resturent.csproj",
-        "packagesPath": "C:\\Users\\Debojit Paul\\.nuget\\packages\\",
-        "outputPath": "E:\\ResturentDemo\\Resturent\\obj\\",
+        "projectPath": "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/Resturent.csproj",
+        "packagesPath": "/Users/navdeep/.nuget/packages/",
+        "outputPath": "/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Debojit Paul\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/navdeep/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -40,9 +38,17 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "BlazorInputFile": {
+              "target": "Package",
+              "version": "[0.2.0, )"
+            },
             "LiveSharp": {
               "target": "Package",
               "version": "[1.6.58, )"
+            },
+            "Microsoft.AspNetCore.Components.Forms": {
+              "target": "Package",
+              "version": "[5.0.4, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
@@ -87,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-preview.1.21103.13\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.201/RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,4 +1,5 @@
 ﻿<StaticWebAssets Version="1.0">
-  <ContentRoot BasePath="/" Path="E:\ResturentDemo\Resturent\obj\Debug\net5.0\scopedcss\bundle\" />
-  <ContentRoot BasePath="_content/MudBlazor" Path="C:\Users\Debojit Paul\.nuget\packages\mudblazor\5.0.5\build\..\staticwebassets\" />
+  <ContentRoot BasePath="/" Path="/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/obj/Debug/net5.0/scopedcss/bundle/" />
+  <ContentRoot BasePath="_content/BlazorInputFile" Path="/Users/navdeep/.nuget/packages/blazorinputfile/0.2.0/build/../staticwebassets/" />
+  <ContentRoot BasePath="_content/MudBlazor" Path="/Users/navdeep/.nuget/packages/mudblazor/5.0.5/build/../staticwebassets/" />
 </StaticWebAssets>
