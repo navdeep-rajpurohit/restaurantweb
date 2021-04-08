@@ -1,0 +1,187 @@
+﻿@page "/items"
+@using Resturent.Models;
+@inject IJSRuntime jsruntime
+@inject ItemService objItemService
+@inject CategoryService objCategoryService
+@inject NavigationManager NavigationManager
+@if (objItem == null)
+{
+    <p>Loading....</p>
+}
+else
+{
+    <MudTable Items="@objItem" MultiSelection="true" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<Item, bool>(FilterFunc)" @bind-SelectedItems="selectedItems">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Add Item</MudText>
+            <a href="/addItem">
+                <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Small" Class="ma-2" />
+            </a>
+            <MudToolBarSpacer />
+            <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+
+
+
+
+
+        </ToolBarContent>
+        <HeaderContent>
+
+            <MudTh><MudTableSortLabel SortBy="new Func<Item, object>(x=>x.ItemName)"><strong>Item Name</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Item, object>(x=>x.CategoryId)"><strong>Category Name</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Item, object>(x=>x.ItemPrice)"><strong>Price</strong></MudTableSortLabel></MudTh>
+            @*<MudTh><MudTableSortLabel SortBy="new Func<Item, object>(x=>x.IsActive)"><strong>Is Active</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Item, object>(x=>x.EDate)"><strong>Entry Date</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Item, object>(x=>x.MDate)"><strong>Modify Date</strong></MudTableSortLabel></MudTh>*@
+            <MudTh><strong>Actions</strong></MudTh>
+
+
+
+
+        </HeaderContent>
+
+        <RowTemplate>
+
+
+            <MudTd DataLabel="Table Name">@context.ItemName</MudTd>
+            <MudTd DataLabel="Table Desc">@context.CategoryId</MudTd>
+            <MudTd DataLabel="Table Desc">@context.ItemPrice</MudTd>
+            @*<MudTd DataLabel="Is Admin">@(context.IsAdmin == true ? "Yes" : "No")</MudTd>
+            <MudTd DataLabel="Is Active">@(context.IsActive == true ? "Yes" : "No")</MudTd>
+            <MudTd DataLabel="Entry Date">@context.EDate?.ToString("dd-MMM-yyyy hh:mm")</MudTd>
+            <MudTd DataLabel="Modify Date">@context.MDate?.ToString("dd-MMM-yyyy hh:mm")</MudTd>*@
+            <MudTd DataLabel="Action">
+
+
+
+
+                <a href="/editTable/@context.ItemId">
+                    <MudFab Color="Color.Secondary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small" />
+                </a>
+
+                <MudFab Color="Color.Primary" @onclick="@(()=>Delete(@context.ItemId))" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small" />
+
+
+
+            </MudTd>
+
+        </RowTemplate>
+
+
+
+
+        <PagerContent>
+            <MudTablePager />
+
+        </PagerContent>
+
+
+    </MudTable>
+
+    <MudToolBar>
+        <MudSwitch @bind-Checked="@hover" Color="Color.Primary">Hover</MudSwitch>
+        <MudSwitch @bind-Checked="@dense" Color="Color.Secondary">Dense</MudSwitch>
+        <MudSwitch @bind-Checked="@striped" Color="Color.Tertiary">Striped</MudSwitch>
+        <MudSwitch @bind-Checked="@bordered" Color="Color.Warning">Bordered</MudSwitch>
+        <MudToolBarSpacer />
+        <div style="min-width:200px;">
+
+
+
+            <MudText Inline="true">Selected items: @(selectedItems == null ? "" : string.Join(", ", selectedItems.OrderBy(x => x.ItemName).Select(x => x.ItemName)))</MudText>
+        </div>
+
+
+
+    </MudToolBar>
+
+    @*<MudButton Variant="Variant.Filled" OnClick="@(async()=> { await GenerateExcel(); })" StartIcon="fas fa-file-excel" Color="Color.Primary" Size="Size.Small">Save to excel</MudButton>*@
+
+
+
+    <MudButton Variant="Variant.Filled" @onclick="@(()=>DeleteMulti(selectedItems.Select(x => x.ItemId).ToArray()))" StartIcon="fas fa-user-times" Color="Color.Secondary" Size="Size.Small">Delete Selected</MudButton>
+
+
+
+
+
+
+
+}
+
+
+@code {
+
+
+
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = false;
+    private bool bordered = false;
+    private string searchString = "";
+
+
+
+
+    List<Item> objItem;
+    List<Category> obj;
+
+    Item objj = new Item();
+
+    private HashSet<Item> selectedItems = new HashSet<Item>();
+    private HashSet<Item> item = new HashSet<Item>();
+
+
+
+    //display
+    private HashSet<Item> GetItem()
+    {
+
+        objItem = objItemService.GetItem(); //after delete display
+        return item;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        objItem = await Task.Run(() => objItemService.GetItem());
+
+    }
+
+
+    //search
+    private bool FilterFunc(Item element)
+    {
+        @*if (string.IsNullOrWhiteSpace(searchString))
+            return true;*@
+        @* if (element.UserName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;*@
+        @* if (element.MobileNo.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;*@
+                    if ($"{element.ItemName} {element.CategoryId}".Contains(searchString))
+                        return true;
+
+                    return false;
+                }
+
+                //delete
+                protected void Delete(long ItemId)
+                {
+                    objItemService.Delete(ItemId);
+                    GetItem();
+
+                }
+                //multiDelete
+                protected void DeleteMulti(long[] num)
+                {
+                    foreach (long x in num)
+                    {
+                        objItemService.Delete(x);
+                    }
+                    GetItem();
+                }
+
+               
+
+
+                //----------------------------------------Excel export----------------------------------//
+
+            }
