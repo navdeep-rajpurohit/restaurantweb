@@ -1,18 +1,18 @@
-﻿@page "/variation"
+﻿@page "/addon"
 @using Resturent.Models;
 @inject IJSRuntime jsruntime
-@inject VariationService objVariationService
+@inject AddonService objAddonService
 @inject NavigationManager NavigationManager
-@if (objVariation == null)
+@if (objAddon == null)
 {
     <p>Loading....</p>
 }
 else
 {
-    <MudTable Items="@objVariation" MultiSelection="true" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<Variation, bool>(FilterFunc)" @bind-SelectedItems="selectedItems">
+    <MudTable Items="@objAddon" MultiSelection="true" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<Addon, bool>(FilterFunc)" @bind-SelectedItems="selectedItems">
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Add Variation</MudText>
-            <a href="/addVariation">
+            <MudText Typo="Typo.h6">Add Addon</MudText>
+            <a href="/addAddon">
                 <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Small" Class="ma-2" />
             </a>
             <MudToolBarSpacer />
@@ -25,10 +25,10 @@ else
         </ToolBarContent>
         <HeaderContent>
 
-            <MudTh><MudTableSortLabel SortBy="new Func<Variation, object>(x=>x.VariationName)"><strong>Variation Name</strong></MudTableSortLabel></MudTh>
-              <MudTh><MudTableSortLabel SortBy="new Func<Variation, object>(x=>x.IsActive)"><strong>Is Active</strong></MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortBy="new Func<Variation, object>(x=>x.EDate)"><strong>Entry Date</strong></MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortBy="new Func<Variation, object>(x=>x.MDate)"><strong>Modify Date</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Addon, object>(x=>x.AddonName)"><strong>Addon Name</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Addon, object>(x=>x.IsActive)"><strong>Is Active</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Addon, object>(x=>x.EDate)"><strong>Entry Date</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Addon, object>(x=>x.MDate)"><strong>Modify Date</strong></MudTableSortLabel></MudTh>
             <MudTh><strong>Actions</strong></MudTh>
 
 
@@ -39,7 +39,7 @@ else
         <RowTemplate>
 
 
-            <MudTd DataLabel="Table Name">@context.VariationName</MudTd>
+            <MudTd DataLabel="Addon Name">@context.AddonName</MudTd>
             <MudTd DataLabel="Is Active">@(context.IsActive == true ? "Yes" : "No")</MudTd>
             <MudTd DataLabel="Entry Date">@context.EDate?.ToString("dd-MMM-yyyy hh:mm")</MudTd>
             <MudTd DataLabel="Modify Date">@context.MDate?.ToString("dd-MMM-yyyy hh:mm")</MudTd>
@@ -48,11 +48,11 @@ else
 
 
 
-                <a href="/editVariation/@context.VariationId">
+                <a href="/editAddon/@context.AddonId">
                     <MudFab Color="Color.Secondary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small" />
                 </a>
 
-                <MudFab Color="Color.Primary" @onclick="@(()=>Delete(@context.VariationId))" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small" />
+                <MudFab Color="Color.Primary" @onclick="@(()=>Delete(@context.AddonId))" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small" />
 
 
 
@@ -81,7 +81,7 @@ else
 
 
 
-            <MudText Inline="true">Selected items: @(selectedItems == null ? "" : string.Join(", ", selectedItems.OrderBy(x => x.VariationName).Select(x => x.VariationName)))</MudText>
+            <MudText Inline="true">Selected items: @(selectedItems == null ? "" : string.Join(", ", selectedItems.OrderBy(x => x.AddonName).Select(x => x.AddonName)))</MudText>
         </div>
 
 
@@ -92,7 +92,7 @@ else
 
 
 
-    <MudButton Variant="Variant.Filled" @onclick="@(()=>DeleteMulti(selectedItems.Select(x => x.VariationId).ToArray()))" StartIcon="fas fa-user-times" Color="Color.Secondary" Size="Size.Small">Delete Selected</MudButton>
+    <MudButton Variant="Variant.Filled" @onclick="@(()=>DeleteMulti(selectedItems.Select(x => x.AddonId).ToArray()))" StartIcon="fas fa-user-times" Color="Color.Secondary" Size="Size.Small">Delete Selected</MudButton>
 
 
 
@@ -116,30 +116,30 @@ else
 
 
 
-    List<Variation> objVariation;
+    List<Addon> objAddon;
 
-    private HashSet<Variation> selectedItems = new HashSet<Variation>();
-    private HashSet<Variation> variation = new HashSet<Variation>();
+    private HashSet<Addon> selectedItems = new HashSet<Addon>();
+    private HashSet<Addon> addon = new HashSet<Addon>();
 
 
 
     //display
-    private HashSet<Variation> GetVariation()
+    private HashSet<Addon> GetAddon()
     {
 
-        objVariation = objVariationService.GetVariation(); //after delete display
-        return variation;
+        objAddon = objAddonService.GetAddon(); //after delete display
+        return addon;
     }
 
     protected override async Task OnInitializedAsync()
     {
-        objVariation = await Task.Run(() => objVariationService.GetVariation());
+        objAddon = await Task.Run(() => objAddonService.GetAddon());
 
     }
 
 
     //search
-    private bool FilterFunc(Variation element)
+    private bool FilterFunc(Addon element)
     {
         @*if (string.IsNullOrWhiteSpace(searchString))
             return true;*@
@@ -147,17 +147,17 @@ else
             return true;*@
         @* if (element.MobileNo.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;*@
-        if ($"{element.VariationName}".Contains(searchString))
+        if ($"{element.AddonName}".Contains(searchString))
             return true;
 
         return false;
     }
 
     //delete
-    protected void Delete(long VariationId)
+    protected void Delete(long AddonId)
     {
-        objVariationService.Delete(VariationId);
-        GetVariation();
+        objAddonService.Delete(AddonId);
+        GetAddon();
 
     }
     //multiDelete
@@ -165,9 +165,9 @@ else
     {
         foreach (long x in num)
         {
-            objVariationService.Delete(x);
+            objAddonService.Delete(x);
         }
-        GetVariation();
+        GetAddon();
     }
 
 

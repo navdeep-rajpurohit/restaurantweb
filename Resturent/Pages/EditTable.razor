@@ -1,38 +1,43 @@
-﻿@page "/addTable"
+﻿@page "/editTable/{CurrentId}"
 @using Resturent.Models
-@inject TableService objTableService
+@inject TableService objaTableService
 @inject NavigationManager NavigationManager
-<h3>AddUser</h3>
+<h3>Edit Table</h3>
 <form>
     <div class="form-row">
         <div class="form-group col-md-6">
             <MudTextField @bind-Value="objTable.TableName" Label="Table Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
         </div>
+
     </div>
+
     <div class="form-row">
         <div class="form-group col-md-6">
             <MudTextField @bind-Value="objTable.TableDesc" T="string" Label="Table Description" Variant="Variant.Outlined" Margin="Margin.Dense" Lines="5" />
         </div>
     </div>
+
     <div class="form-row">
+
         <div class="form-group col-md-2">
             <label for="inputPassword4">Is Admin</label>
             <label class="switch">
-                <input type="checkbox" @bind="isAdmin">
+                <input type="checkbox" @bind="objTable.IsAdmin">
                 <span class="slider round"></span>
             </label>
         </div>
-        <div class="form-group col-md-2">
+
+        <div class="form-group col-md-3">
             <label for="inputPassword4">Is Active</label>
             <label class="switch">
-                <input type="checkbox" @bind="isActive">
+                <input type="checkbox" @bind="objTable.IsActive">
                 <span class="slider round"></span>
             </label>
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-md-3">
             <label for="inputPassword4">Status</label>
             <label class="switch">
-                <input type="checkbox" @bind="status">
+                <input type="checkbox" @bind="objTable.Status">
                 <span class="slider round"></span>
             </label>
         </div>
@@ -40,7 +45,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <input type="button" class="btn btn-primary" @onclick="@CreateUser" value="save" />
+                <input type="button" class="btn btn-primary" @onclick="@UpdateTable" value="Update" />
                 <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
 
             </div>
@@ -50,28 +55,26 @@
 
 
 @code {
+    [Parameter]
+    public string CurrentId { get; set; }
 
     Table objTable = new Table();
 
-    private bool hover = true;
-    private DateTime eDate;
-    public bool isActive, isAdmin, status;
-
-
+    private DateTime mDate;
     protected override void OnInitialized()
     {
-        eDate = DateTime.Now;
+        mDate = DateTime.Now;
     }
 
-    void CreateUser()
+    protected override async Task OnInitializedAsync()
     {
-        objTable.UserId = 0;
-        objTable.EDate = eDate;
-        objTable.MDate = null;
-        objTable.IsActive = isActive ? true : false;
-        objTable.IsAdmin = isAdmin ? true : false;
-        objTable.Status = status ? true : false;
-        objTableService.Create(objTable);
+        objTable = await Task.Run(() => objaTableService.GetTableById(Convert.ToInt32(CurrentId)));
+    }
+
+    void UpdateTable()
+    {
+        objTable.MDate = mDate;
+        objaTableService.Update(objTable);
         NavigationManager.NavigateTo("table");
     }
     void Cancel()
@@ -79,25 +82,6 @@
         NavigationManager.NavigateTo("table");
     }
 
-    //password hide
 
-    bool isShow;
-    InputType PasswordInput = InputType.Password;
-    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
 
-    void ButtonTestclick()
-    {
-        @if (isShow)
-        {
-            isShow = false;
-            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
-            PasswordInput = InputType.Password;
-        }
-        else
-        {
-            isShow = true;
-            PasswordInputIcon = Icons.Material.Filled.Visibility;
-            PasswordInput = InputType.Text;
-        }
-    }
 }

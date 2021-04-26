@@ -1,0 +1,114 @@
+﻿@page "/addCategory"
+@using Resturent.Models
+@inject CategoryService objCategoryService
+@inject NavigationManager NavigationManager
+@using System.IO
+
+
+
+
+@inherits OwningComponentBase<CategoryService>
+
+
+<h3>Add Category</h3>
+
+<form>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objCategory.CategoryName" Label="Category Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objCategory.Description" T="string" Label="Category Description" Variant="Variant.Outlined" Margin="Margin.Dense" Lines="5" />
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label for="inputPassword4">Is Active</label>
+            <label class="switch">
+                <input type="checkbox" @bind="isActive">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="inputPassword4">Status</label>
+            <label class="switch">
+                <input type="checkbox" @bind="status">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="inputPassword4">
+                <BlazorInputFile.InputFile id="fileInput" OnChange="HandleFileSelected" hidden multiple />
+                <MudIconButton HtmlTag="label"
+                               Color="Color.Info"
+                               Icon="@Icons.Filled.PhotoCamera"
+                               for="fileInput">
+                </MudIconButton>
+                @Message
+            </label>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" @onclick="@CreateCategory" value="save" />
+                    <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
+
+                </div>
+            </div>
+        </div>
+</form>
+
+
+@code {
+
+    Category objCategory = new Category();
+
+    public byte[] imgUpload { get; set; }
+    string Message = "No file(s) selected";
+
+
+    private bool hover = true;
+    private DateTime eDate;
+    public bool isActive, isAdmin, status;
+
+
+    protected override void OnInitialized()
+    {
+        eDate = DateTime.Now;
+    }
+
+    void CreateCategory()
+    {
+
+        objCategory.CategoryId = 0;
+        objCategory.Image = imgUpload;
+        objCategory.EDate = eDate;
+        objCategory.MDate = null;
+        objCategory.IsActive = isActive ? true : false;
+        objCategory.Status = status ? true : false;
+        objCategoryService.Create(objCategory);
+        NavigationManager.NavigateTo("category");
+    }
+    IFileListEntry file;
+    public async Task HandleFileSelected(IFileListEntry[] files)
+    {
+        file = files.FirstOrDefault();
+        if (file != null)
+        {
+            Message = $"{file.Name}";
+            var ms = new MemoryStream();
+            await file.Data.CopyToAsync(ms);
+            imgUpload = ms.ToArray();
+        }
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("category");
+    }
+
+
+}

@@ -1,0 +1,75 @@
+﻿@page "/editAddon/{CurrentId}"
+@using Resturent.Models
+@inject AddonService objAddonService
+@inject NavigationManager NavigationManager
+<h3>Add Addon</h3>
+<form>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objAddon.AddonName" Label="Variation Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+
+
+
+
+    </div>
+    <div class="form-row">
+
+        <div class="form-group col-md-3">
+            <label for="inputPassword4">Is Active</label>
+            <label class="switch">
+                <input type="checkbox" @bind="objAddon.IsActive">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputPassword4">Status</label>
+            <label class="switch">
+                <input type="checkbox" @bind="objAddon.Status">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@UpdateAddon" value="Update" />
+                <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
+
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@code {
+    [Parameter]
+    public string CurrentId { get; set; }
+
+    Addon objAddon = new Addon();
+
+    private DateTime mDate;
+    protected override void OnInitialized()
+    {
+        mDate = DateTime.Now;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        objAddon = await Task.Run(() => objAddonService.GetAddonById(Convert.ToInt32(CurrentId)));
+    }
+
+    void UpdateAddon()
+    {
+        objAddon.MDate = mDate;
+        objAddonService.Update(objAddon);
+        NavigationManager.NavigateTo("addon");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("addon");
+    }
+
+
+
+}

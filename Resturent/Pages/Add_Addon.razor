@@ -1,0 +1,73 @@
+﻿@page "/addAddon"
+@using Resturent.Models
+@inject AddonService objAddonService
+@inject NavigationManager NavigationManager
+<h3>Add Addon</h3>
+<form>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objAddon.AddonName" Label="Addon Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+    </div>
+
+    <div class="form-row">
+
+        <div class="form-group col-md-2">
+            <label for="inputPassword4">Is Active</label>
+            <label class="switch">
+                <input type="checkbox" @bind="isActive">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="inputPassword4">Status</label>
+            <label class="switch">
+                <input type="checkbox" @bind="status">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@CreateAddon" value="save" />
+                <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
+
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@code {
+
+    Addon objAddon = new Addon();
+
+    private bool hover = true;
+    private DateTime eDate;
+    public bool isActive, isAdmin, status;
+
+
+    protected override void OnInitialized()
+    {
+        eDate = DateTime.Now;
+    }
+
+    void CreateAddon()
+    {
+        objAddon.AddonId = 0;
+        objAddon.EDate = eDate;
+        objAddon.MDate = null;
+        objAddon.IsActive = isActive ? true : false;
+        // objVariation.IsAdmin = isAdmin ? true : false;
+        objAddon.Status = status ? true : false;
+        objAddonService.Create(objAddon);
+        NavigationManager.NavigateTo("addon");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("addon");
+    }
+
+
+}
