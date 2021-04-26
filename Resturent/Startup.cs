@@ -38,6 +38,7 @@ namespace Resturent
             services.AddScoped<AddonService>();
             services.AddScoped<CategoryService>();
             services.AddScoped<ItemService>();
+            services.AddScoped<PriceManagementService>();
             services.AddDbContext<OmDemoContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("OmDemoDatabase"))  //specify
                 );

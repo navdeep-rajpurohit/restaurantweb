@@ -1,0 +1,208 @@
+﻿@page "/editItem/{CurrentId}"
+@using Resturent.Models
+@inject ItemService objItemService
+@inject CategoryService objCategoryService
+@inject VariationService objVariationService
+@inject PriceManagementService objPriceManagementService
+@inject NavigationManager NavigationManager
+@if (objCategory == null)
+{
+<p>Loading....</p>}
+else
+{
+<h3>AddUser</h3>
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <MudTextField @bind-Value="objItem.ItemName" Label="Item Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <MudSelect T="long?" @bind-Value="objItem.CategoryId" Label="Category" Strict="true" Variant="Variant.Outlined" Format="F2">
+                                @foreach (var jj in objCategory)
+                                {
+            <MudSelectItem T="long?" Value="@jj.CategoryId">@jj.CategoryName</MudSelectItem>}
+
+
+                            </MudSelect>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <MudTextField @bind-Value="objItem.ItemPrice" Label="Item Price" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+                        </div>
+                    </div>
+                    @*<div class="form-row">
+                        <div class="form-group col-md-6">
+                            <MudExpansionPanel Text="Add Variation">
+
+                                <MudTh><label style="width: 150px;">Variation</label></MudTh>
+                                <MudTh><label style="width: 150px;">Price</label></MudTh>
+                                <br />
+                                @foreach (var xx in objVariation)
+                                {
+                 long? varamt = @getVaritaionAmt(xx.VariationId);
+                <MudTd> <input type="checkbox" id="@xx.VariationId" @onchange="eventArgs => { CheckboxVariation(xx.VariationId, eventArgs.Value); }" style="width: 100px;">@xx.VariationName</MudTd>
+                <MudTd> <input type="text" @bind="varamt"  Label="Price" style="width: 95px;"></MudTd> <br />
+                                    //@onchange="eventArgs => { CheckboxVariationValue(xx.VariationId, eventArgs.Value.ToString()); }"
+
+                                }
+
+                            </MudExpansionPanel>
+
+                        </div>
+                    </div>*@
+                    <div class="form-row">
+
+                        <div class="form-group col-md-3">
+                            <label for="inputPassword4">Is Active</label>
+                            <label class="switch">
+                                @*<input type="checkbox" @bind="objVariation.IsActive">*@
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="inputPassword4">Status</label>
+                            <label class="switch">
+                                @*<input type="checkbox" @bind="objVariation.Status">*@
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input type="button" class="btn btn-primary" @onclick="@UpdateItem" value="Update" />
+                                <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+                                @code { [Parameter]
+                                    public string CurrentId { get; set; }
+
+                                    Item objItem = new Item();
+                                    PriceManagement objPM = new PriceManagement();
+                                    List<Category> objCategory;
+                                    List<Variation> objVariation;
+                                    List<PriceManagement> objPriceManagement;
+                                    private HashSet<Category> category = new HashSet<Category>();
+                                    private HashSet<Variation> variation = new HashSet<Variation>();
+                                    private HashSet<PriceManagement> pricemanagement = new HashSet<PriceManagement>();
+
+                                    public List<long?> selectedVariationId = new List<long?>();
+                                    public SortedDictionary<long?, long?> selectedVariationAmt = new SortedDictionary<long?, long?>();
+
+
+                                    private DateTime mDate;
+                                    protected override void OnInitialized()
+                                    {
+                                        mDate = DateTime.Now;
+                                    }
+
+                                    private HashSet<Category> GetCategory()
+                                    {
+
+                                        objCategory = objCategoryService.GetCategory(); //after delete display
+                                        return category;
+                                    }
+                                    private HashSet<Variation> GetVariation()
+                                    {
+
+                                        objVariation = objVariationService.GetVariation(); //after delete display
+                                        return variation;
+                                    }
+                                    private HashSet<PriceManagement> GetPriceManagement()
+                                    {
+
+                                        objPriceManagement = objPriceManagementService.GetPriceManagement(); //after delete display
+                                        return pricemanagement;
+                                    }
+                                    protected override async Task OnInitializedAsync()
+                                    {
+                                        objItem = await Task.Run(() => objItemService.GetItemById(Convert.ToInt32(CurrentId)));
+                                        objCategory = await Task.Run(() => objCategoryService.GetCategory());
+                                        objPriceManagement = await Task.Run(() => objPriceManagementService.GetPriceManagement());
+                                        objVariation = await Task.Run(() => objVariationService.GetVariation());
+
+                                    }
+
+                                    private string getCategoryName(long? id)
+                                    {
+                                        long? categoryId = id;
+                                        string cName = objCategoryService._db.Categories.Where(u => u.CategoryId == id).Select(u => u.CategoryName).SingleOrDefault();
+                                        return cName;
+                                    }
+                                    private long? getVaritaionAmt(long? id)
+                                    {
+                                        long? VariationId = id;
+                                        long? iId = long.Parse(CurrentId);
+                                        long? vName = objPriceManagementService._db.PriceManagements.Where(u => (u.VariationId == id) && (u.ItemId == iId)).Select(u => u.VariationAmount).SingleOrDefault();
+                                        return vName;
+                                    }
+
+                                    void UpdateItem()
+                                    {
+                                        // objItem.MDate = mDate;
+                                        objItemService.Update(objItem);
+                                        if (selectedVariationId.Count() > 0)
+                                        {
+
+                                            for (int i = 0; i < selectedVariationId.Count(); i++)
+                                            {
+                                                objPM.VariationId = selectedVariationId[i];
+                                                objPM.VariationAmount = selectedVariationAmt.Values.ElementAt(i);
+                                                objPriceManagementService.Update(objPM);
+
+                                            }
+
+
+                                        }
+                                        NavigationManager.NavigateTo("items");
+                                    }
+                                    void Cancel()
+                                    {
+                                        NavigationManager.NavigateTo("items");
+                                    }
+                                    void CheckboxVariation(long? vId, object checkedValue)
+                                    {
+                                        if ((bool)checkedValue)
+                                        {
+                                            if (!selectedVariationId.Contains(vId))
+                                            {
+                                                selectedVariationId.Add(vId);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (selectedVariationId.Contains(vId))
+                                            {
+                                                selectedVariationId.Remove(vId);
+                                            }
+                                        }
+                                    }
+
+                                    void CheckboxVariationValue(long? vId, string checkedValue)
+                                    {
+
+                                        if (!selectedVariationAmt.Keys.Contains(vId))
+                                        {
+                                            selectedVariationAmt.Add(vId, long.Parse(checkedValue));
+                                        }
+
+                                        else
+                                        {
+                                            if (selectedVariationAmt.Keys.Contains(vId))
+                                            {
+                                                selectedVariationAmt.Remove(vId);
+                                            }
+                                        }
+                                    }
+
+
+
+                                }}

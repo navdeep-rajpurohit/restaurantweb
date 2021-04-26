@@ -1,0 +1,177 @@
+﻿@page "/variation"
+@using Resturent.Models;
+@inject IJSRuntime jsruntime
+@inject VariationService objVariationService
+@inject NavigationManager NavigationManager
+@if (objVariation == null)
+{
+    <p>Loading....</p>
+}
+else
+{
+    <MudTable Items="@objVariation" MultiSelection="true" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<Variation, bool>(FilterFunc)" @bind-SelectedItems="selectedItems">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Add Variation</MudText>
+            <a href="/addVariation">
+                <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Size="Size.Small" IconSize="Size.Small" Class="ma-2" />
+            </a>
+            <MudToolBarSpacer />
+            <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+
+
+
+
+
+        </ToolBarContent>
+        <HeaderContent>
+
+            <MudTh><MudTableSortLabel SortBy="new Func<Variation, object>(x=>x.VariationName)"><strong>Variation Name</strong></MudTableSortLabel></MudTh>
+              <MudTh><MudTableSortLabel SortBy="new Func<Variation, object>(x=>x.IsActive)"><strong>Is Active</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Variation, object>(x=>x.EDate)"><strong>Entry Date</strong></MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Variation, object>(x=>x.MDate)"><strong>Modify Date</strong></MudTableSortLabel></MudTh>
+            <MudTh><strong>Actions</strong></MudTh>
+
+
+
+
+        </HeaderContent>
+
+        <RowTemplate>
+
+
+            <MudTd DataLabel="Table Name">@context.VariationName</MudTd>
+            <MudTd DataLabel="Is Active">@(context.IsActive == true ? "Yes" : "No")</MudTd>
+            <MudTd DataLabel="Entry Date">@context.EDate?.ToString("dd-MMM-yyyy hh:mm")</MudTd>
+            <MudTd DataLabel="Modify Date">@context.MDate?.ToString("dd-MMM-yyyy hh:mm")</MudTd>
+            <MudTd DataLabel="Action">
+
+
+
+
+                <a href="/editVariation/@context.VariationId">
+                    <MudFab Color="Color.Secondary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small" />
+                </a>
+
+                <MudFab Color="Color.Primary" @onclick="@(()=>Delete(@context.VariationId))" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small" />
+
+
+
+            </MudTd>
+
+        </RowTemplate>
+
+
+
+
+        <PagerContent>
+            <MudTablePager />
+
+        </PagerContent>
+
+
+    </MudTable>
+
+    <MudToolBar>
+        <MudSwitch @bind-Checked="@hover" Color="Color.Primary">Hover</MudSwitch>
+        <MudSwitch @bind-Checked="@dense" Color="Color.Secondary">Dense</MudSwitch>
+        <MudSwitch @bind-Checked="@striped" Color="Color.Tertiary">Striped</MudSwitch>
+        <MudSwitch @bind-Checked="@bordered" Color="Color.Warning">Bordered</MudSwitch>
+        <MudToolBarSpacer />
+        <div style="min-width:200px;">
+
+
+
+            <MudText Inline="true">Selected items: @(selectedItems == null ? "" : string.Join(", ", selectedItems.OrderBy(x => x.VariationName).Select(x => x.VariationName)))</MudText>
+        </div>
+
+
+
+    </MudToolBar>
+
+    @*<MudButton Variant="Variant.Filled" OnClick="@(async()=> { await GenerateExcel(); })" StartIcon="fas fa-file-excel" Color="Color.Primary" Size="Size.Small">Save to excel</MudButton>*@
+
+
+
+    <MudButton Variant="Variant.Filled" @onclick="@(()=>DeleteMulti(selectedItems.Select(x => x.VariationId).ToArray()))" StartIcon="fas fa-user-times" Color="Color.Secondary" Size="Size.Small">Delete Selected</MudButton>
+
+
+
+
+
+
+
+}
+
+
+@code {
+
+
+
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = false;
+    private bool bordered = false;
+    private string searchString = "";
+
+
+
+
+    List<Variation> objVariation;
+
+    private HashSet<Variation> selectedItems = new HashSet<Variation>();
+    private HashSet<Variation> variation = new HashSet<Variation>();
+
+
+
+    //display
+    private HashSet<Variation> GetVariation()
+    {
+
+        objVariation = objVariationService.GetVariation(); //after delete display
+        return variation;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        objVariation = await Task.Run(() => objVariationService.GetVariation());
+
+    }
+
+
+    //search
+    private bool FilterFunc(Variation element)
+    {
+        @*if (string.IsNullOrWhiteSpace(searchString))
+            return true;*@
+        @* if (element.UserName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;*@
+        @* if (element.MobileNo.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;*@
+        if ($"{element.VariationName}".Contains(searchString))
+            return true;
+
+        return false;
+    }
+
+    //delete
+    protected void Delete(long VariationId)
+    {
+        objVariationService.Delete(VariationId);
+        GetVariation();
+
+    }
+    //multiDelete
+    protected void DeleteMulti(long[] num)
+    {
+        foreach (long x in num)
+        {
+            objVariationService.Delete(x);
+        }
+        GetVariation();
+    }
+
+
+
+    //----------------------------------------Excel export----------------------------------//
+
+}

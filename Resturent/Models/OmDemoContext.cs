@@ -20,6 +20,7 @@ namespace Resturent.Models
         public virtual DbSet<Addon> Addons { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<PriceManagement> PriceManagements { get; set; }
         public virtual DbSet<Table> Tables { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Variation> Variations { get; set; }
@@ -29,7 +30,7 @@ namespace Resturent.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=.\\SQLEXPRESS; Database=OmDemo; Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("server=localhost;User Id=sa;Password = reallyStrongPwd123; Database=OmDemo; Trusted_Connection=False;");
             }
         }
 
@@ -41,7 +42,7 @@ namespace Resturent.Models
             {
                 entity.ToTable("Addon", "Config");
 
-                entity.HasIndex(e => e.AddonName, "UQ__Addon__F83A0AD342291596")
+                entity.HasIndex(e => e.AddonName, "UQ__Addon__F83A0AD37576E5EB")
                     .IsUnique();
 
                 entity.Property(e => e.AddonId).HasColumnName("AddonID");
@@ -67,6 +68,9 @@ namespace Resturent.Models
             {
                 entity.ToTable("Category", "Config");
 
+                entity.HasIndex(e => e.CategoryName, "UQ__Category__8517B2E0A32F1396")
+                    .IsUnique();
+
                 entity.Property(e => e.CategoryName)
                     .HasMaxLength(100)
                     .IsUnicode(false);
@@ -76,8 +80,6 @@ namespace Resturent.Models
                 entity.Property(e => e.EDate)
                     .HasColumnType("datetime")
                     .HasColumnName("eDate");
-
-                entity.Property(e => e.Image).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.IsActive).HasDefaultValueSql("((0))");
 
@@ -92,19 +94,44 @@ namespace Resturent.Models
             {
                 entity.ToTable("Items", "Config");
 
-                entity.HasIndex(e => e.ItemName, "UQ__Items__4E4373F7AB314DA9")
+                entity.HasIndex(e => e.ItemName, "UQ__Items__4E4373F782764F2A")
                     .IsUnique();
 
                 entity.Property(e => e.ItemName)
                     .HasMaxLength(100)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Items)
+                    .HasForeignKey(d => d.CategoryId)
+                    .HasConstraintName("FK__Items__CategoryI__151B244E");
+            });
+
+            modelBuilder.Entity<PriceManagement>(entity =>
+            {
+                entity.HasKey(e => e.PriceId)
+                    .HasName("Pk_PriceId");
+
+                entity.ToTable("PriceManagement", "Config");
+
+                entity.Property(e => e.EDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("eDate");
+
+                entity.Property(e => e.ItemId).HasColumnName("itemId");
+
+                entity.Property(e => e.MDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("mDate");
+
+                entity.Property(e => e.Status).HasColumnName("status");
             });
 
             modelBuilder.Entity<Table>(entity =>
             {
                 entity.ToTable("Table", "Config");
 
-                entity.HasIndex(e => e.TableName, "UQ__Table__733652EEC9125F31")
+                entity.HasIndex(e => e.TableName, "UQ__Table__733652EE50B91B96")
                     .IsUnique();
 
                 entity.Property(e => e.TableId).HasColumnName("TableID");
@@ -134,7 +161,7 @@ namespace Resturent.Models
             {
                 entity.ToTable("User", "Account");
 
-                entity.HasIndex(e => e.UserName, "UQ__User__C9F28456FA872635")
+                entity.HasIndex(e => e.UserName, "UQ__User__C9F284565D19066F")
                     .IsUnique();
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
@@ -172,7 +199,7 @@ namespace Resturent.Models
             {
                 entity.ToTable("Variation", "Config");
 
-                entity.HasIndex(e => e.VariationName, "UQ__Variatio__EF20A5A42EFA1CAE")
+                entity.HasIndex(e => e.VariationName, "UQ__Variatio__EF20A5A41FDA2D3E")
                     .IsUnique();
 
                 entity.Property(e => e.VariationId).HasColumnName("VariationID");

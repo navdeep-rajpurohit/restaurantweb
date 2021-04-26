@@ -817,3 +817,5 @@ C:/Users/Debojit Paul/OneDrive/Desktop/ResturentDemo/ResturentDemo-27-03/Resture
 C:/Users/Debojit Paul/OneDrive/Desktop/ResturentDemo/ResturentDemo-27-03/Resturent/obj/Debug/net5.0/ref/Resturent.dll
 C:/Users/Debojit Paul/OneDrive/Desktop/ResturentDemo/ResturentDemo-27-03/Resturent/obj/Debug/net5.0/Resturent.pdb
 C:/Users/Debojit Paul/OneDrive/Desktop/ResturentDemo/ResturentDemo-27-03/Resturent/obj/Debug/net5.0/Resturent.genruntimeconfig.cache
+/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/obj/Debug/net5.0/RazorDeclaration/Pages/EditItem.razor.g.cs
+/Users/navdeep/Projects/ResturentDemo/ResturentDemo-27-03/Resturent/obj/Debug/net5.0/Razor/Pages/EditItem.razor.g.cs
