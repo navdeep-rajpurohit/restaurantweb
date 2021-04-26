@@ -5,44 +5,44 @@ using System.Threading.Tasks;
 
 namespace Resturent.Models
 {
-    public  class TableService
+    public class AddonService
     {
         private readonly OmDemoContext _db;
 
-        public TableService(OmDemoContext db)
+        public AddonService(OmDemoContext db)
         {
             _db = db;
         }
 
         //crud
         //display all user
-        public List<Table> GetTable()
+        public List<Addon> GetAddon()
         {
-            var tableList = _db.Tables.ToList();
-            return tableList;
+            var addonList = _db.Addons.ToList();
+            return addonList;
         }
 
         //Insert
 
-        public string Create(Table objTable)
+        public string Create(Addon objAddon)
         {
-            _db.Tables.Add(objTable);
+            _db.Addons.Add(objAddon);
             _db.SaveChanges();
             return "save successfully";
         }
 
         //get user by ID
 
-        public Table GetTableById(int id)
+        public Addon GetAddonById(int id)
         {
-            Table table = _db.Tables.FirstOrDefault(s => s.TableId == id);
-            return table;
+            Addon addon = _db.Addons.FirstOrDefault(s => s.AddonId == id);
+            return addon;
         }
 
         //Update
-        public string Update(Table objTable)
+        public string Update(Addon objAddon)
         {
-            _db.Tables.Update(objTable);
+            _db.Addons.Update(objAddon);
             _db.SaveChanges();
             return "Update successfully";
         }
@@ -55,12 +55,12 @@ namespace Resturent.Models
              return "deleted";
          }*/
 
-        public string Delete(long TableId)
+        public string Delete(long AddonId)
         {
-            var table = _db.Tables.FirstOrDefault(s => s.TableId == TableId);
-            if (table != null)
+            var addon = _db.Addons.FirstOrDefault(s => s.AddonId == AddonId);
+            if (addon != null)
             {
-                _db.Tables.Remove(table);
+                _db.Addons.Remove(addon);
                 _db.SaveChanges();
             }
             return "Deleted";
