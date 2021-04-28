@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
+
 
 namespace Resturent.Models
 {
@@ -40,27 +43,42 @@ namespace Resturent.Models
         }
 
         //Update
-        public string Update(PriceManagement objPriceManagement)
+        public string Update(PriceManagement objPriceManagement,long CurrentId,long? VariationId)
+
         {
-            _db.PriceManagements.Update(objPriceManagement);
+            PriceManagement idlist = _db.PriceManagements.Where(c => (c.ItemId == CurrentId) && (c.VariationId == VariationId)).FirstOrDefault();
+            if (idlist == null)
+            {
+                 objPriceManagement.PriceId = 0;
+                _db.PriceManagements.Add(objPriceManagement);
+            }
+            else if (idlist.ItemId == CurrentId && idlist.VariationId == VariationId)
+            {
+                idlist.VariationId = objPriceManagement.VariationId;
+                idlist.VariationAmount = objPriceManagement.VariationAmount;   
+            }
             _db.SaveChanges();
             return "Update successfully";
         }
-
-        //Delete
-        /* public string Delete(User objUser)
-         {
-             _db.Remove(objUser);
-             _db.SaveChanges();
-             return "deleted";
-         }*/
-
         public string Delete(long? ItemId)
         {
             var pricemanagement = _db.PriceManagements.FirstOrDefault(s => s.ItemId == ItemId);
             if (pricemanagement != null)
             {
                 _db.PriceManagements.RemoveRange(_db.PriceManagements.Where(c => c.ItemId == ItemId)); 
+                _db.SaveChanges();
+            }
+            return "Deleted";
+        }
+        public string DeleteVariation(List<long?> DeleteVarId,long CurrentId)
+        {
+            var varId = _db.PriceManagements.FirstOrDefault(s => s.ItemId == CurrentId);
+            if (varId != null)
+            {
+                foreach (long i in DeleteVarId)
+                {
+                    _db.PriceManagements.RemoveRange(_db.PriceManagements.Where(c => c.ItemId == CurrentId && c.VariationId == i));
+                }
                 _db.SaveChanges();
             }
             return "Deleted";

@@ -10,76 +10,77 @@
 <p>Loading....</p>}
 else
 {
+    
 <h3>AddUser</h3>
-                <form>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <MudTextField @bind-Value="objItem.ItemName" Label="Item Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <MudSelect T="long?" @bind-Value="objItem.CategoryId" Label="Category" Strict="true" Variant="Variant.Outlined" Format="F2">
-                                @foreach (var jj in objCategory)
-                                {
-            <MudSelectItem T="long?" Value="@jj.CategoryId">@jj.CategoryName</MudSelectItem>}
+<form>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objItem.ItemName" Label="Item Name" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudSelect T="long?" @bind-Value="objItem.CategoryId" Label="Category" Strict="true" Variant="Variant.Outlined" Format="F2">
+                @foreach (var jj in objCategory)
+                {
+<MudSelectItem T="long?" Value="@jj.CategoryId">@jj.CategoryName</MudSelectItem>}
 
 
-                            </MudSelect>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <MudTextField @bind-Value="objItem.ItemPrice" Label="Item Price" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
-                        </div>
-                    </div>
-                    @*<div class="form-row">
-                        <div class="form-group col-md-6">
-                            <MudExpansionPanel Text="Add Variation">
+            </MudSelect>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudTextField @bind-Value="objItem.ItemPrice" Label="Item Price" Variant="Variant.Outlined" Margin="Margin.Dense" class="form-control"></MudTextField>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <MudExpansionPanel Text="Edit Variation">
+                <table>
+                    <tr>
+                        <th><label style="width: 150px;">Variation</label></th>
+                        <th><label style="width: 150px;">Price</label></th>
+                    </tr>
+                    <br />
+                    @foreach (var xx in objVariation)
+                    {
+                <tr>
+                    <td>@xx.VariationName</td>
+                    <td><input type="text" value="@getVaritaionAmt(xx.VariationId)" @onchange="eventArgs => { CheckboxVariationValue(xx.VariationId, eventArgs.Value.ToString()); }" Label="Price" style="width: 95px;"></td>
+                </tr>
+               <br />}
+                </table>
+            </MudExpansionPanel>
+        </div>
+    </div>
+    <div class="form-row">
 
-                                <MudTh><label style="width: 150px;">Variation</label></MudTh>
-                                <MudTh><label style="width: 150px;">Price</label></MudTh>
-                                <br />
-                                @foreach (var xx in objVariation)
-                                {
-                 long? varamt = @getVaritaionAmt(xx.VariationId);
-                <MudTd> <input type="checkbox" id="@xx.VariationId" @onchange="eventArgs => { CheckboxVariation(xx.VariationId, eventArgs.Value); }" style="width: 100px;">@xx.VariationName</MudTd>
-                <MudTd> <input type="text" @bind="varamt"  Label="Price" style="width: 95px;"></MudTd> <br />
-                                    //@onchange="eventArgs => { CheckboxVariationValue(xx.VariationId, eventArgs.Value.ToString()); }"
+        <div class="form-group col-md-3">
+            <label for="inputPassword4">Is Active</label>
+            <label class="switch">
+                @*<input type="checkbox" @bind="objVariation.IsActive">*@
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputPassword4">Status</label>
+            <label class="switch">
+                @*<input type="checkbox" @bind="objVariation.Status">*@
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@UpdateItem" value="Update" />
+                <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
 
-                                }
-
-                            </MudExpansionPanel>
-
-                        </div>
-                    </div>*@
-                    <div class="form-row">
-
-                        <div class="form-group col-md-3">
-                            <label for="inputPassword4">Is Active</label>
-                            <label class="switch">
-                                @*<input type="checkbox" @bind="objVariation.IsActive">*@
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="inputPassword4">Status</label>
-                            <label class="switch">
-                                @*<input type="checkbox" @bind="objVariation.Status">*@
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input type="button" class="btn btn-primary" @onclick="@UpdateItem" value="Update" />
-                                <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
-
-                            </div>
-                        </div>
-                    </div>
-                </form>
+            </div>
+        </div>
+    </div>
+</form>
 
 
                                 @code { [Parameter]
@@ -93,12 +94,14 @@ else
                                     private HashSet<Category> category = new HashSet<Category>();
                                     private HashSet<Variation> variation = new HashSet<Variation>();
                                     private HashSet<PriceManagement> pricemanagement = new HashSet<PriceManagement>();
+                                    List<long?> DeleteVarId = new List<long?>();
 
-                                    public List<long?> selectedVariationId = new List<long?>();
+
                                     public SortedDictionary<long?, long?> selectedVariationAmt = new SortedDictionary<long?, long?>();
 
 
                                     private DateTime mDate;
+
                                     protected override void OnInitialized()
                                     {
                                         mDate = DateTime.Now;
@@ -149,60 +152,50 @@ else
                                     {
                                         // objItem.MDate = mDate;
                                         objItemService.Update(objItem);
-                                        if (selectedVariationId.Count() > 0)
+                                       
+                                        objPriceManagementService.DeleteVariation(DeleteVarId,long.Parse(CurrentId));
+                                        if (selectedVariationAmt.Keys.Count() > 0)
                                         {
-
-                                            for (int i = 0; i < selectedVariationId.Count(); i++)
+                                            for (int i = 0; i < selectedVariationAmt.Keys.Count(); i++)
                                             {
-                                                objPM.VariationId = selectedVariationId[i];
+                                                //objPM.PriceId = 0;
+                                                objPM.ItemId = objItem.ItemId;
+                                                objPM.VariationId = selectedVariationAmt.Keys.ElementAt(i);
                                                 objPM.VariationAmount = selectedVariationAmt.Values.ElementAt(i);
-                                                objPriceManagementService.Update(objPM);
+                                                objPriceManagementService.Update(objPM,long.Parse(CurrentId),selectedVariationAmt.Keys.ElementAt(i));
 
                                             }
-
-
                                         }
                                         NavigationManager.NavigateTo("items");
+
+
                                     }
                                     void Cancel()
                                     {
                                         NavigationManager.NavigateTo("items");
                                     }
-                                    void CheckboxVariation(long? vId, object checkedValue)
+                                   
+
+                                void CheckboxVariationValue(long? vId, string checkedValue)
+                                {
+                                    if (checkedValue == null || checkedValue == "")
                                     {
-                                        if ((bool)checkedValue)
-                                        {
-                                            if (!selectedVariationId.Contains(vId))
-                                            {
-                                                selectedVariationId.Add(vId);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (selectedVariationId.Contains(vId))
-                                            {
-                                                selectedVariationId.Remove(vId);
-                                            }
-                                        }
+                                        DeleteVarId.Add(vId);
+                                    }
+                                    if (!selectedVariationAmt.Keys.Contains(vId) && checkedValue != "" )
+                                    {
+                                        selectedVariationAmt.Add(vId, long.Parse(checkedValue));
                                     }
 
-                                    void CheckboxVariationValue(long? vId, string checkedValue)
+                                    else
                                     {
-
-                                        if (!selectedVariationAmt.Keys.Contains(vId))
+                                        if (selectedVariationAmt.Keys.Contains(vId))
                                         {
-                                            selectedVariationAmt.Add(vId, long.Parse(checkedValue));
-                                        }
-
-                                        else
-                                        {
-                                            if (selectedVariationAmt.Keys.Contains(vId))
-                                            {
-                                                selectedVariationAmt.Remove(vId);
-                                            }
+                                            selectedVariationAmt.Remove(vId);
                                         }
                                     }
-
+                                }
+                                
 
 
                                 }}
