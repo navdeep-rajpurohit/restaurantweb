@@ -10,7 +10,6 @@
 <p>Loading....</p>}
 else
 {
-    
 <h3>AddUser</h3>
 <form>
     <div class="form-row">
@@ -37,19 +36,21 @@ else
     <div class="form-row">
         <div class="form-group col-md-6">
             <MudExpansionPanel Text="Edit Variation">
+ 
                 <table>
                     <tr>
                         <th><label style="width: 150px;">Variation</label></th>
                         <th><label style="width: 150px;">Price</label></th>
                     </tr>
                     <br />
+
                     @foreach (var xx in objVariation)
                     {
                 <tr>
                     <td>@xx.VariationName</td>
-                    <td><input type="text" value="@getVaritaionAmt(xx.VariationId)" @onchange="eventArgs => { CheckboxVariationValue(xx.VariationId, eventArgs.Value.ToString()); }" Label="Price" style="width: 95px;"></td>
+                    <td><input type="search" value="@getVaritaionAmt(xx.VariationId)" @onchange="eventArgs => { CheckboxVariationValue(xx.VariationId, eventArgs.Value.ToString()); }" Label="Price" style="width: 95px;"></td>
                 </tr>
-               <br />}
+                <br />}
                 </table>
             </MudExpansionPanel>
         </div>
@@ -84,9 +85,10 @@ else
 
 
                                 @code { [Parameter]
-                                    public string CurrentId { get; set; }
 
+                                    public string CurrentId { get; set; }
                                     Item objItem = new Item();
+                                    public long? vAmount { get; set; }
                                     PriceManagement objPM = new PriceManagement();
                                     List<Category> objCategory;
                                     List<Variation> objVariation;
@@ -152,7 +154,7 @@ else
                                     {
                                         // objItem.MDate = mDate;
                                         objItemService.Update(objItem);
-                                       
+
                                         objPriceManagementService.DeleteVariation(DeleteVarId,long.Parse(CurrentId));
                                         if (selectedVariationAmt.Keys.Count() > 0)
                                         {
@@ -174,28 +176,27 @@ else
                                     {
                                         NavigationManager.NavigateTo("items");
                                     }
-                                   
-
-                                void CheckboxVariationValue(long? vId, string checkedValue)
-                                {
-                                    if (checkedValue == null || checkedValue == "")
+                                
+                                    void CheckboxVariationValue(long? vId, string checkedValue)
                                     {
-                                        DeleteVarId.Add(vId);
-                                    }
-                                    if (!selectedVariationAmt.Keys.Contains(vId) && checkedValue != "" )
-                                    {
-                                        selectedVariationAmt.Add(vId, long.Parse(checkedValue));
-                                    }
-
-                                    else
-                                    {
-                                        if (selectedVariationAmt.Keys.Contains(vId))
+                                        if (checkedValue == null || checkedValue == "")
                                         {
-                                            selectedVariationAmt.Remove(vId);
+                                            DeleteVarId.Add(vId);
+                                        }
+                                        if (!selectedVariationAmt.Keys.Contains(vId) && checkedValue != "" )
+                                        {
+                                            selectedVariationAmt.Add(vId, long.Parse(checkedValue));
+                                        }
+
+                                        else
+                                        {
+                                            if (selectedVariationAmt.Keys.Contains(vId))
+                                            {
+                                                selectedVariationAmt.Remove(vId);
+                                            }
                                         }
                                     }
-                                }
-                                
+
 
 
                                 }}
